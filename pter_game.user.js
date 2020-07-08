@@ -176,7 +176,6 @@ function epic_form(response) {
             break;
         }
     }
-    console.log(gameInfo['_title']);
     var about = gameInfo.data.about.description;
     var date = gameInfo.data.meta['releaseDate'];
     var year = date.split("-").shift();
