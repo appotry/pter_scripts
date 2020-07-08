@@ -272,7 +272,6 @@ function choose_form(key) {
         var epicid = /product\/(.+?)\//g.exec(key).pop();
         url ="https://store-content.ak.epicgames.com/api/zh-CN/content/products/"+epicid;
         fill_form = epic_form;
-        console.log(url)
     }
     else if(key.indexOf('indienova') !== -1){
         url = "https://api.rhilip.info/tool/movieinfo/gen?url="+key;
