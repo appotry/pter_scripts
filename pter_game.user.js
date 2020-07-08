@@ -264,7 +264,7 @@ function choose_form(key) {
 (function() {
     'use strict';
     $("input[name='name']").parent().parent().after(
-        "<tr><td>Steam ID</td><td><input id='gameid' /></td></tr>"
+        "<tr><td>Game ID</td><td><input id='gameid' /></td></tr>"
     );
     const gameid = $("#gameid");
     gameid.after(
