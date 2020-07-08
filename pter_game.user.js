@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.211
+// @version      0.212
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -289,6 +289,16 @@ function choose_form(key) {
     return url;
 }
 
+function triger(gameid) {
+        const url = choose_form(gameid.val());
+        GM.xmlHttpRequest({
+            method: "GET",                  //We call the Steam API to get info on the game
+            url: url,
+            responseType: "json",
+            onload: fill_form
+        });
+}
+
 (function() {
     'use strict';
     $("input[name='name']").parent().parent().after(
@@ -297,17 +307,8 @@ function choose_form(key) {
     const gameid = $("#gameid");
     gameid.after(
         '<a href="javascript:;" id="fill_win" style="color:green">Win</a> <a href="javascript:;" id="fill_lin" style="color:blue">Lin</a> <a href="javascript:;" id="fill_mac" style="color:orange">Mac</a> <a href="javascript:;" id="fill_ns" style="color:red">NS</a>');
-    $('#fill_win').click(function () { $("#console").val("16"); });
-    $('#fill_lin').click(function () { $("#console").val("46"); });
-    $('#fill_mac').click(function () { $("#console").val("37"); });
-    $('#fill_ns').click(function () { $("#console").val("20"); });
-    gameid.blur(function() { //After the "appid" input loses focus
-        const url = choose_form(gameid.val());
-        GM.xmlHttpRequest({
-            method: "GET",                  //We call the Steam API to get info on the game
-            url: url,
-            responseType: "json",
-            onload: fill_form
-        });
-    });
+    $('#fill_win').click(function () { triger(gameid); $("#console").val("16"); });
+    $('#fill_lin').click(function () { triger(gameid); $("#console").val("46"); });
+    $('#fill_mac').click(function () { triger(gameid); $("#console").val("37"); });
+    $('#fill_ns').click(function () { triger(gameid); $("#console").val("20"); });
 })();
