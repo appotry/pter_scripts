@@ -88,7 +88,7 @@ function pretty_sr(str) {
 
 function steam_form(response) {
     //We store the data in gameInfo, since it's much easier to access this way
-    var steamid = /app\/(\d+)\//g.exec($("#gameid").val()).pop();
+    //var steamid = /app\/(\d+)\//g.exec($("#gameid").val()).pop();
     var gameInfo = response.response[steamid].data;
     var about = gameInfo.about_the_game;
     var date = gameInfo.release_date.date.split(", ").pop();
@@ -260,7 +260,7 @@ function indienova_form(response) {
 function choose_form(key) {
     let url;
     if (key.indexOf("https://store.steampowered.com/") !== -1) {
-        var steamid = /app\/(\d+)\//g.exec(key).pop();
+        steamid = /app\/(\d+)/g.exec(key).pop();
         url = "https://store.steampowered.com/api/appdetails?l=schinese&appids="+steamid;
         fill_form = steam_form
     }
