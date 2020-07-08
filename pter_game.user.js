@@ -248,11 +248,23 @@ function epic_form(response) {
     }*/
 }
 
+function indienova_form(response) {
+    var gameInfo = response.response;
+    $("input[name ='name']").val(gameInfo.english_title);
+    $("input[name ='small_descr']").val(gameInfo.chinese_title);
+    $("input[name ='year']").val(gameInfo.release_date.split("-").shift());
+    $("#descr").val(gameInfo.format)
+}
+
 function choose_form(key) {
     let url;
     if (/^\d+$/.test(key) === true) {
         url = "https://store.steampowered.com/api/appdetails?l=schinese&appids="+key;
         fill_form = steam_form
+    }
+    else if(key.indexOf('indienova') !== -1){
+        url = "https://api.rhilip.info/tool/movieinfo/gen?url="+key;
+        fill_form = indienova_form
     }
     else {
         url ="https://store-content.ak.epicgames.com/api/zh-CN/content/products/"+key;
