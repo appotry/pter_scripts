@@ -87,7 +87,9 @@ function pretty_sr(str) {
 }
 
 function steam_form(response) {
+    //调用steamapi获取相关信息
     //We store the data in gameInfo, since it's much easier to access this way
+
     //var steamid = /app\/(\d+)\//g.exec($("#gameid").val()).pop();
     var gameInfo = response.response[steamid].data;
     var about = gameInfo.about_the_game;
@@ -169,6 +171,7 @@ function steam_form(response) {
 }
 
 function epic_form(response) {
+    //调用epicapi获取相关信息
     //We store the data in gameInfo, since it's much easier to access this way
     var gameInfo = response.response["pages"];
     for (let i=0; i<gameInfo.length;i++){
@@ -250,6 +253,7 @@ function epic_form(response) {
 }
 
 function indienova_form(response) {
+    //调用ptgenapi获取indienova的相关信息
     var gameInfo = response.response;
     $("input[name ='name']").val(gameInfo.english_title);
     $("input[name ='small_descr']").val(gameInfo.chinese_title);
