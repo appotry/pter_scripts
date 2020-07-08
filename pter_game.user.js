@@ -88,11 +88,12 @@ function pretty_sr(str) {
 
 function steam_form(response) {
     //We store the data in gameInfo, since it's much easier to access this way
-    var gameInfo = response.response[$("#gameid").val()].data;
+    var steamid = /app\/(\d+)\//g.exec($("#gameid").val()).pop();
+    var gameInfo = response.response[steamid].data;
     var about = gameInfo.about_the_game;
     var date = gameInfo.release_date.date.split(", ").pop();
     var year = date.split("年").shift();
-    var store = 'https://store.steampowered.com/app/' + $("#gameid").val();
+    var store = 'https://store.steampowered.com/app/' + steamid;
     var genres = [];
     gameInfo.genres.forEach(function (genre) {
         var tag = genre.description.toLowerCase().replace(/ /g, ".");
@@ -105,7 +106,7 @@ function steam_form(response) {
     gameInfo.screenshots.forEach(function(screen) {
         screens += "[center][img]"+ screen.path_full.split("?")[0] + "[/img][/center]\n"
     });
-    var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + screens
+    var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + screens;
     try {
         var trailer = gameInfo.movies[0].webm.max.split("?")[0];
         var tr = "\n\n[center][b][u]预告欣赏[/u][/b][/center]\n" + `[center][video]${trailer}[/video][/center]`;
@@ -146,7 +147,7 @@ function steam_form(response) {
     sr = "\n\n[center][b][u]配置要求[/u][/b][/center]\n\n" +
              pretty_sr(html2bb("[quote]\n" + recfield.minimum + "\n" + recfield.recommended + "[/quote]\n"));
     var cover = "[center][img]" + gameInfo.header_image.split("?")[0] + "[/img][/center]";       //Get the image URL
-    var big_cover = "[center][img]" + "https://steamcdn-a.akamaihd.net/steam/apps/" + $("#gameid").val() + "/library_600x900_2x.jpg" + "[/img][/center]";
+    var big_cover = "[center][img]" + "https://steamcdn-a.akamaihd.net/steam/apps/" + steamid + "/library_600x900_2x.jpg" + "[/img][/center]";
     GM.xmlHttpRequest({
         method: "GET",                  //We call the Steam API to get info on the game
         url: big_cover,
@@ -258,17 +259,20 @@ function indienova_form(response) {
 
 function choose_form(key) {
     let url;
-    if (/^\d+$/.test(key) === true) {
-        url = "https://store.steampowered.com/api/appdetails?l=schinese&appids="+key;
+    if (key.indexOf("https://store.steampowered.com/") !== -1) {
+        var steamid = /app\/(\d+)\//g.exec(key).pop();
+        url = "https://store.steampowered.com/api/appdetails?l=schinese&appids="+steamid;
         fill_form = steam_form
+    }
+    else if(key.indexOf("epicgames.com") !== -1) {
+        var epicid = /product\/(.+?)\//g.exec(key).pop();
+        url ="https://store-content.ak.epicgames.com/api/zh-CN/content/products/"+epicid;
+        fill_form = epic_form;
+        console.log(url)
     }
     else if(key.indexOf('indienova') !== -1){
         url = "https://api.rhilip.info/tool/movieinfo/gen?url="+key;
         fill_form = indienova_form
-    }
-    else {
-        url ="https://store-content.ak.epicgames.com/api/zh-CN/content/products/"+key;
-        fill_form = epic_form
     }
     return url;
 }
@@ -276,14 +280,15 @@ function choose_form(key) {
 (function() {
     'use strict';
     $("input[name='name']").parent().parent().after(
-        "<tr><td>Game ID</td><td><input id='gameid' /></td></tr>"
+        "<tr><td>Game ID</td><td><input style='width: 450px;' id='gameid' /></td></tr>"
     );
     const gameid = $("#gameid");
     gameid.after(
-        '<a href="javascript:;" id="fill_win">Win</a> <a href="javascript:;" id="fill_lin">Lin</a> <a href="javascript:;" id="fill_mac">Mac</a>');
+        '<a href="javascript:;" id="fill_win">Win</a> <a href="javascript:;" id="fill_lin">Lin</a> <a href="javascript:;" id="fill_mac">Mac</a> <a href="javascript:;" id="fill_ns">NS</a>');
     $('#fill_win').click(function () { $("#console").val("16"); });
     $('#fill_lin').click(function () { $("#console").val("46"); });
     $('#fill_mac').click(function () { $("#console").val("37"); });
+    $('#fill_ns').click(function () { $("#console").val("20"); });
     gameid.blur(function() { //After the "appid" input loses focus
         const url = choose_form(gameid.val());
         GM.xmlHttpRequest({
