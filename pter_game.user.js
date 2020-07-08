@@ -274,7 +274,7 @@ function choose_form(key) {
         fill_form = epic_form;
     }
     else if(key.indexOf('indienova') !== -1){
-        key = key.substring(0,key.length-1)
+        key = key.substring(0,key.length-1);
         url = "https://api.rhilip.info/tool/movieinfo/gen?url="+key;
         fill_form = indienova_form
     }
