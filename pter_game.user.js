@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.21
+// @version      0.21.1
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -258,7 +258,10 @@ function indienova_form(response) {
     $("input[name ='name']").val(gameInfo.english_title);
     $("input[name ='small_descr']").val(gameInfo.chinese_title);
     $("input[name ='year']").val(gameInfo.release_date.split("-").shift());
-    const descr = gameInfo.format.replace('【基本信息】', '[center][b][u]基本信息[/u][/b][/center]').replace('【游戏简介】', '[center][b][u]关于游戏[/u][/b][/center]').replace('【游戏截图】', '[b][u]游戏截图[/u][/b][/center]').replace('【游戏评级】', '[center][b][u]游戏评级[/u][/b][/center]');
+    //更改居中显示文字
+    var descr = gameInfo.format.replace('【基本信息】', '[center][b][u]基本信息[/u][/b][/center]').replace('【游戏简介】', '[center][b][u]关于游戏[/u][/b][/center]').replace('【游戏截图】', '[center][b][u]游戏截图[/u][/b][/center]').replace('【游戏评级】', '[center][b][u]游戏评级[/u][/b][/center]');
+    //更改居中显示图片
+    descr = descr.replace(/\[img]/g,'[center][img]').replace(/\[\/img]/g,'[/img][/center]');
     $("#descr").val(descr)
 }
 
