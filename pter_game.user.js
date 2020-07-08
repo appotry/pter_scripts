@@ -280,7 +280,7 @@ function choose_form(key) {
 (function() {
     'use strict';
     $("input[name='name']").parent().parent().after(
-        "<tr><td>Game ID</td><td><input style='width: 450px;' id='gameid' /></td></tr>"
+        "<tr><td>Game URL</td><td><input style='width: 450px;' id='gameid' /></td></tr>"
     );
     const gameid = $("#gameid");
     gameid.after(
