@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Pter Steam Uploady
+// @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.13
-// @description  Steam Uploady for Pterclub
+// @version      0.2
+// @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
 // @match        https://pterclub.com/editgameinfo.php*
