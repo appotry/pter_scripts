@@ -259,12 +259,16 @@ function indienova_form(response) {
 
 function choose_form(key) {
     let url;
+    if (!key.endsWith('/')){
+        key += '/'
+    }
     if (key.indexOf("https://store.steampowered.com/") !== -1) {
         steamid = /app\/(\d+)/g.exec(key).pop();
         url = "https://store.steampowered.com/api/appdetails?l=schinese&appids="+steamid;
         fill_form = steam_form
     }
     else if(key.indexOf("epicgames.com") !== -1) {
+
         var epicid = /product\/(.+?)\//g.exec(key).pop();
         url ="https://store-content.ak.epicgames.com/api/zh-CN/content/products/"+epicid;
         fill_form = epic_form;
