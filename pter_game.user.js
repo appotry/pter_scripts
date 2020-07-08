@@ -171,11 +171,12 @@ function epic_form(response) {
     //We store the data in gameInfo, since it's much easier to access this way
     var gameInfo = response.response["pages"];
     for (let i=0; i<gameInfo.length;i++){
-        if(gameInfo[i]['_title'] === "home"||"主页"){
+        if(gameInfo[i]['_title'] === "home"||gameInfo[i]['_title'] === "主页"){
             gameInfo = gameInfo[i];
             break;
         }
     }
+    console.log(gameInfo['_title']);
     var about = gameInfo.data.about.description;
     var date = gameInfo.data.meta['releaseDate'];
     var year = date.split("-").shift();
