@@ -284,7 +284,7 @@ function choose_form(key) {
     );
     const gameid = $("#gameid");
     gameid.after(
-        '<a href="javascript:;" id="fill_win">Win</a> <a href="javascript:;" id="fill_lin">Lin</a> <a href="javascript:;" id="fill_mac">Mac</a> <a href="javascript:;" id="fill_ns">NS</a>');
+        '<a href="javascript:;" id="fill_win" style="color:green">Win</a> <a href="javascript:;" id="fill_lin" style="color:blue">Lin</a> <a href="javascript:;" id="fill_mac" style="color:orange">Mac</a> <a href="javascript:;" id="fill_ns" style="color:red">NS</a>');
     $('#fill_win').click(function () { $("#console").val("16"); });
     $('#fill_lin').click(function () { $("#console").val("46"); });
     $('#fill_mac').click(function () { $("#console").val("37"); });
