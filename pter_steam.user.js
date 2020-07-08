@@ -99,11 +99,12 @@ function fill_form(response) {
         screens += "[center][img]"+ screen.path_full.split("?")[0] + "[/img][/center]\n"
     });
     var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + screens
-    try {var trailer = gameInfo.movies[0].webm.max.split("?")[0];}
-    catch (e) {
-        trailer = '暂无预告'
+    try {
+        var trailer = gameInfo.movies[0].webm.max.split("?")[0];
+        var tr = "\n\n[center][b][u]预告欣赏[/u][/b][/center]\n" + `[center][video]${trailer}[/video][/center]`;
+    }catch (e) {
+        tr = ''
     }
-    var tr = "\n\n[center][b][u]预告欣赏[/u][/b][/center]\n"+ `[center][video]${trailer}[/video][/center]`
     var platform = "Windows";
     //var cover_field = "input[name='image']";
     var desc_field = "textarea[name='body']";
