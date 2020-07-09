@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.212
+// @version      0.213
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -210,26 +210,28 @@ function epic_form(response) {
     $("#tags").val(genres.join(", "));*/
     //cover_field = "#image";
     desc_field = "#descr";
-    platform = $("#console").val();
-
+    var platform = $("#console").val();
+    switch (platform) {
+        case "16":
+            platform = "Windows";
+            break;
+        case "46":
+            platform = "Linux";
+            break;
+        case "37":
+            platform = "Mac";
+            break;
+    }
     var recfield = gameInfo.data.requirements.systems[0].details;
+    gameInfo.data.requirements.systems.forEach(function (system) {
+        if (system['systemType'] === platform){recfield=system.details}
+    });
     var minimum = '[b]最低配置[/b]\n';
     var recommended = '[b]推荐配置[/b]\n';
     recfield.forEach(function (sysrec, index) {
         minimum += "[b]" + sysrec['title'] + "[/b]" + ': ' + sysrec['minimum'] + '\n';
         recommended += "[b]" + sysrec['title'] + "[/b]" + ': ' + sysrec['recommended'] + '\n'
     });
-    /*switch (platform) {
-        case "Windows":
-            recfield = gameInfo.pc_requirements;
-            break;
-        case "Linux":
-            recfield = gameInfo.linux_requirements;
-            break;
-        case "Mac":
-            recfield = gameInfo.mac_requirements;
-            break;
-    }*/
     var sr = html2bb(recfield.minimum) + "\n" + html2bb(recfield.recommended);
     sr = "\n\n[center][b][u]配置要求[/u][/b][/center]\n\n" +
         pretty_sr(html2bb("[quote]\n" + minimum + "\n" + recommended + "[/quote]\n"));
