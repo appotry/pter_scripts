@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.0.0
+// @version      1.0.1
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -106,9 +106,9 @@ function steam_form(response) {
     about = "[center][b][u]关于游戏[/u][/b][/center]\n" +`[b]发行日期[/b]：${date}\n\n[b]商店链接[/b]：${store}\n\n[b]游戏标签[/b]：${genres}\n\n` + html2bb(about).trim();
     var screens = '';
     gameInfo.screenshots.forEach(function(screen) {
-        screens += "[center][img]"+ screen.path_full.split("?")[0] + "[/img][/center]\n"
+        screens += "[img]"+ screen.path_full.split("?")[0] + "[/img]\n"
     });
-    var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + screens;
+    var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + "[center]" + screens + "[/center]";
     try {
         var trailer = gameInfo.movies[0].webm.max.split("?")[0];
         var tr = "\n\n[center][b][u]预告欣赏[/u][/b][/center]\n" + `[center][video]${trailer}[/video][/center]`;
