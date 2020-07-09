@@ -145,8 +145,7 @@ function steam_form(response) {
             recfield = gameInfo.mac_requirements;
             break;
     }
-    var sr = html2bb(recfield.minimum) + "\n" + html2bb(recfield.recommended);
-    sr = "\n\n[center][b][u]配置要求[/u][/b][/center]\n\n" +
+    var sr = "\n\n[center][b][u]配置要求[/u][/b][/center]\n\n" +
              pretty_sr(html2bb("[quote]\n" + recfield.minimum + "\n" + recfield.recommended + "[/quote]\n"));
     var cover = "[center][img]" + gameInfo.header_image.split("?")[0] + "[/img][/center]";       //Get the image URL
     var big_cover = "[center][img]" + "https://steamcdn-a.akamaihd.net/steam/apps/" + steamid + "/library_600x900_2x.jpg" + "[/img][/center]";
@@ -191,24 +190,11 @@ function epic_form(response) {
         screens += "[center][img]" + screen["src"] + "[/img][/center]\n"
     });
     var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + screens;
-    // var trailer = gameInfo.data.carousel.items[0].video.contentId;
-    // var tr = "\n\n[center][b][u]预告欣赏[/u][/b][/center]\n"+ `[center][video]${trailer}[/video][/center]`
-    // var platform = "Windows"
-    //var cover_field = "input[name='image']";
     var desc_field = "textarea[name='body']";
 
 
    $("input[name ='name']").val(gameInfo.productName);  //Get the name of the game
    // $("input[name='small_descr']").val(gameInfo.data.about.title); //暂时不获取中文名了
-    //$("#year").val(year);
-    /*
-    var genres = [];
-    gameInfo.genres.forEach(function (genre) {
-        var tag = genre.description.toLowerCase().replace(/ /g, ".");
-        genres.push(tag);
-    });
-    $("#tags").val(genres.join(", "));*/
-    //cover_field = "#image";
     desc_field = "#descr";
     var platform = $("#console").val();
     switch (platform) {
@@ -232,8 +218,7 @@ function epic_form(response) {
         minimum += "[b]" + sysrec['title'] + "[/b]" + ': ' + sysrec['minimum'] + '\n';
         recommended += "[b]" + sysrec['title'] + "[/b]" + ': ' + sysrec['recommended'] + '\n'
     });
-    var sr = html2bb(recfield.minimum) + "\n" + html2bb(recfield.recommended);
-    sr = "\n\n[center][b][u]配置要求[/u][/b][/center]\n\n" +
+    var sr = "\n\n[center][b][u]配置要求[/u][/b][/center]\n\n" +
         pretty_sr(html2bb("[quote]\n" + minimum + "\n" + recommended + "[/quote]\n"));
     var age_rate = "[center][b][u]游戏评级[/u][/b][/center]\n";
     try {
@@ -248,10 +233,6 @@ function epic_form(response) {
     $(desc_field).val($(desc_field).val() + about + sr + age_rate + sc);
     $(desc_field).val(fix_emptylines($(desc_field).val()));
     $("input[name ='year']").val(year)
-    /*if (gameInfo.metacritic) {
-        $("#meta").val(gameInfo.metacritic.score);
-        $("#metauri").val(gameInfo.metacritic.url.split("?")[0] + "/critic-reviews");
-    }*/
 }
 
 function indienova_form(response) {
