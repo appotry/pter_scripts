@@ -187,9 +187,9 @@ function epic_form(response) {
     about = "[center][b][u]关于游戏[/u][/b][/center]\n" + `[b]发行日期[/b]：${date}\n\n[b]商店链接[/b]：${store}\n\n` + markdown2bb(about).trim();
     var screens = '';
     gameInfo.data.gallery.galleryImages.forEach(function (screen) {
-        screens += "[center][img]" + screen["src"] + "[/img][/center]\n"
+        screens += "[img]" + screen["src"] + "[/img]\n"
     });
-    var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + screens;
+    var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + "[center]" + screens + "[/center]" ;
     var desc_field = "textarea[name='body']";
 
 
