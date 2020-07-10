@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Pter NFO Helper
+// @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
 // @version      0.1.0
-// @description  NFO image Uploady for Pterclub
+// @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
 // @match        https://pterclub.com/editgame.php*
