@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.2.1
+// @version      0.2.2
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -40,7 +40,7 @@ function fill_nfo(response) {
     const token = /nfo=(\d+?)&secret=(.+?)&font=FONTIDX/.exec(response.response);
     const imgurl = `https://www.xrel.to/nfo-a/${token[1]}-${token[2]}/c90fd3b2-2.png`;
     const descr =$('#descr');
-    const nfo_descr =  descr.val() + `[img]${imgurl}[/img]`;
+    const nfo_descr =  descr.val() + `[center][img]${imgurl}[/img][/center]`;
     descr.val(nfo_descr)
 }
 
