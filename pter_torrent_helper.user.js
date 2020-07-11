@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.1
+// @version      0.2.0
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -44,25 +44,21 @@ function fill_nfo(response) {
     descr.val(nfo_descr)
 }
 
-function fill_iso() {
+function fill_install(type) {
     'use strict';
     const descr =$('#descr');
-    const iso_descr = descr.val() +"[center][b][u]安装方法[/u][/b][/center]\n[*]解压缩\n[*]挂载镜像\n[*]安装游戏\n[*]复制破解补丁至游戏安装目录\n[*]游玩\n\n";
-    descr.val(iso_descr)
-}
-
-function fill_fit() {
-    'use strict';
-    const descr =$('#descr');
-    const fit_descr = descr.val() +"[center][b][u]安装方法[/u][/b][/center]\n[*]运行 \"Verify BIN files before installation.bat\" 进行MD5验证（可选）\n[*]运行 \"setup.exe\"安装游戏\n[*]开始游玩\n[*]游戏经过高压，需要一定时间才能解压完毕，请耐心等待。\n\n";
-    descr.val(fit_descr)
-}
-
-function fill_3dm() {
-    'use strict';
-    const descr =$('#descr');
-    const tdm_descr = descr.val() +"[center][b][u]安装方法[/u][/b][/center]\n[*]解压缩\n[*]运行游戏\n[*]破解补丁已经预先封装进游戏\n\n";
-    descr.val(tdm_descr)
+    let ins_descr = '';
+    switch (type) {
+        case 'iso':
+            ins_descr = descr.val() + "[center][b][u]安装方法[/u][/b][/center]\n[*]解压缩\n[*]挂载镜像\n[*]安装游戏\n[*]复制破解补丁至游戏安装目录\n[*]游玩\n\n";
+            break;
+        case 'fit':
+            ins_descr = descr.val() +"[center][b][u]安装方法[/u][/b][/center]\n[*]运行 \"Verify BIN files before installation.bat\" 进行MD5验证（可选）\n[*]运行 \"setup.exe\"安装游戏\n[*]开始游玩\n[*]游戏经过高压，需要一定时间才能解压完毕，请耐心等待。\n\n";
+            break;
+        case '3dm':
+            ins_descr = descr.val() +"[center][b][u]安装方法[/u][/b][/center]\n[*]解压缩\n[*]运行游戏\n[*]破解补丁已经预先封装进游戏\n\n";
+    }
+    descr.val(ins_descr)
 }
 
 (function() {
@@ -94,7 +90,7 @@ function fill_3dm() {
     $("#rlsid").after(
         '<a href="javascript:;" id="get_nfo" style="color:green">NFO</a> <a href="javascript:;" id="fill_iso" style="color:blue">ISO</a> <a href="javascript:;" id="fill_fit" style="color:orange">Fitgirl</a> <a href="javascript:;" id="fill_3dm" style="color:red">3DM</a>');
     $('#get_nfo').click(function () { find_rls($("#rlsid").val());});
-    $('#fill_iso').click(function () { fill_iso();});
-    $('#fill_fit').click(function () { fill_fit();});
-    $('#fill_3dm').click(function () { fill_3dm();});
+    $('#fill_iso').click(function () { fill_install('iso');});
+    $('#fill_fit').click(function () { fill_install('fit');});
+    $('#fill_3dm').click(function () { fill_install('3dm');});
 })();
