@@ -17,7 +17,6 @@ function find_rls(rlsid) {
     const data = "xrel_search_query="+rlsid;
     GM.xmlHttpRequest({
         method: "POST",
-        synchronous : true,
         url: "https://www.xrel.to/search.html?mode=rls",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
