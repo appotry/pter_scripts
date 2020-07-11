@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.2.0
+// @version      0.2.1
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -24,7 +24,7 @@ function find_rls(rlsid) {
         data: data,
         onload: function (response) {
             if (response.status === 200){
-                const game_url = "https://www.xrel.to/" + /(game-nfo.+?)\.html/.exec(response.responseText).shift();
+                const game_url = "https://www.xrel.to/" + /((?:game|console)-nfo.+?)\.html/.exec(response.responseText).shift();
                  GM.xmlHttpRequest({
                      method: "GET",
                      url: game_url,
