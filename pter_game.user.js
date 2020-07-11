@@ -149,7 +149,8 @@ function steam_form(response) {
              pretty_sr(html2bb("[quote]\n" + recfield.minimum + "\n" + recfield.recommended + "[/quote]\n"));
     var cover = "[center][img]" + gameInfo.header_image.split("?")[0] + "[/img][/center]";       //Get the image URL
     var big_cover = "[center][img]" + "https://steamcdn-a.akamaihd.net/steam/apps/" + steamid + "/library_600x900_2x.jpg" + "[/img][/center]";
-    GM.xmlHttpRequest({
+   //由于异步原因暂时不获取big_conver了
+    /*GM.xmlHttpRequest({
         method: "GET",                  //We call the Steam API to get info on the game
         url: big_cover,
         responseType: "json",
@@ -158,7 +159,7 @@ function steam_form(response) {
                 cover = big_cover;
             }
         }
-    });
+    });*/
     $(desc_field).val(cover);
     $(desc_field).val($(desc_field).val() + about + sr + tr + sc);
     $(desc_field).val(fix_emptylines($(desc_field).val()));
