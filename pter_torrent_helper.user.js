@@ -57,6 +57,7 @@ function fill_install(type) {
             break;
         case '3dm':
             ins_descr = descr.val() +"[center][b][u]安装方法[/u][/b][/center]\n[*]解压缩\n[*]运行游戏\n[*]破解补丁已经预先封装进游戏\n\n";
+            break;
     }
     descr.val(ins_descr)
 }
