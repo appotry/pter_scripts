@@ -148,9 +148,9 @@ function steam_form(response) {
     var sr = "\n\n[center][b][u]配置要求[/u][/b][/center]\n\n" +
              pretty_sr(html2bb("[quote]\n" + recfield.minimum + "\n" + recfield.recommended + "[/quote]\n"));
     var cover = "[center][img]" + gameInfo.header_image.split("?")[0] + "[/img][/center]";       //Get the image URL
-    var big_cover = "[center][img]" + "https://steamcdn-a.akamaihd.net/steam/apps/" + steamid + "/library_600x900_2x.jpg" + "[/img][/center]";
-   //由于异步原因暂时不获取big_conver了
-    /*GM.xmlHttpRequest({
+    //由于异步原因暂时不获取big_conver了
+    /*var big_cover = "[center][img]" + "https://steamcdn-a.akamaihd.net/steam/apps/" + steamid + "/library_600x900_2x.jpg" + "[/img][/center]";
+    GM.xmlHttpRequest({
         method: "GET",                  //We call the Steam API to get info on the game
         url: big_cover,
         responseType: "json",
