@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.0.4
+// @version      1.0.5
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -120,7 +120,7 @@ function steam_form(response) {
     var desc_field = "textarea[name='body']";
 
 
-    $("input[name ='name']").val(gameInfo.name);  //Get the name of the game
+    $("input[name ='name']").val(pretty_sr(gameInfo.name));  //Get the name of the game
     //$("#year").val(year);
     /*
     var genres = [];
