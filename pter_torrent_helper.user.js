@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.2.2
+// @version      0.2.3
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
 // @match        https://pterclub.com/editgame.php*
-// @require      https://code.jquery.com/jquery-3.1.1.min.js
+// @require      https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js
 // @require      https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @icon         https://pterclub.com/favicon.ico
 // @grant        GM.xmlHttpRequest
