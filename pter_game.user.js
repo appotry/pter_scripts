@@ -6,7 +6,7 @@
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
 // @match        https://pterclub.com/editgameinfo.php*
-// @require      https://code.jquery.com/jquery-3.1.1.min.js
+// @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
 // @require      https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @icon         https://pterclub.com/favicon.ico
 // @grant        GM.xmlHttpRequest

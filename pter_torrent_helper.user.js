@@ -6,7 +6,7 @@
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
 // @match        https://pterclub.com/editgame.php*
-// @require      https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js
+// @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
 // @require      https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @icon         https://pterclub.com/favicon.ico
 // @grant        GM.xmlHttpRequest
