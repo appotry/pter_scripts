@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.2.3
+// @version      0.2.4
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -71,7 +71,7 @@ function fill_install(type) {
             var rlsname = torrent.val().replace('C:\\fakepath\\','').replace('.torrent','');
             try {
                 // 去掉外站内容
-                rlsname = /\(([\w/.-]+)\)/.exec(rlsname).pop();
+                rlsname = /\((.+?([\w/.-]+))\)/.exec(rlsname).pop();
             }catch(e) {
                 // 去掉内站常用前后缀
                 rlsname = rlsname.replace(/(?:\[\w+?])?/g,'').replace(/^\.+/,'');
