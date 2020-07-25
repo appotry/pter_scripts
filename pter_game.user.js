@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.0.5
+// @version      1.1.0
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -292,9 +292,10 @@ function triger(gameid) {
     );
     const gameid = $("#gameid");
     gameid.after(
-        '<a href="javascript:;" id="fill_win" style="color:green">Win</a> <a href="javascript:;" id="fill_lin" style="color:blue">Lin</a> <a href="javascript:;" id="fill_mac" style="color:orange">Mac</a> <a href="javascript:;" id="fill_ns" style="color:red">NS</a>');
+        '<a href="javascript:;" id="fill_win" style="color:green">Win</a> <a href="javascript:;" id="fill_lin" style="color:blue">Lin</a> <a href="javascript:;" id="fill_mac" style="color:orange">Mac</a> <a href="javascript:;" id="fill_ns" style="color:red">NS</a> <a href="javascript:;" id="fill_ps4" style="color:grey">PS4</a>' ) ;
     $('#fill_win').click(function () { triger(gameid); $("#console").val("16"); });
     $('#fill_lin').click(function () { triger(gameid); $("#console").val("46"); });
     $('#fill_mac').click(function () { triger(gameid); $("#console").val("37"); });
     $('#fill_ns').click(function () { triger(gameid); $("#console").val("20"); });
+    $('#fill_ps4').click(function () { triger(gameid); $("#console").val("31"); });
 })();
