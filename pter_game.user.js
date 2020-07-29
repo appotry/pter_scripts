@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.0
+// @version      1.1.1
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -256,7 +256,7 @@ function choose_form(key) {
     if (!key.endsWith('/')){
         key += '/'
     }
-    if (key.indexOf("https://store.steampowered.com/") !== -1) {
+    if (key.indexOf("store.steampowered.com/") !== -1) {
         steamid = /app\/(\d+)/g.exec(key).pop();
         url = "https://store.steampowered.com/api/appdetails?l=schinese&appids="+steamid;
         fill_form = steam_form
