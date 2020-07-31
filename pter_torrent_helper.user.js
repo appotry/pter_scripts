@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.2.5
+// @version      0.3.0
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -38,10 +38,17 @@ function find_rls(rlsid) {
 function fill_nfo(response) {
     'use strict';
     const token = /nfo=(\d+?)&secret=(.+?)&font=FONTIDX/.exec(response.response);
-    const imgurl = `https://www.xrel.to/nfo-a/${token[1]}-${token[2]}/c90fd3b2-1.png`;
-    const descr =$('#descr');
-    const nfo_descr =  descr.val() + `[center][img]${imgurl}[/img][/center]`;
-    descr.val(nfo_descr)
+    let imgurl = `https://www.xrel.to/nfo-a/${token[1]}-${token[2]}/c90fd3b2-1.png`;
+    GM.xmlHttpRequest({
+        method: "GET",
+        url: imgurl,
+        onload: function (response){
+            if (/png/g.exec(response.responseText) === null){imgurl =`https://www.xrel.to/nfo-a/${token[1]}-${token[2]}/c90fd3b2-2.png` }
+            const descr =$('#descr');
+            const nfo_descr =  descr.val() + `[center][img]${imgurl}[/img][/center]`;
+            descr.val(nfo_descr)
+        }
+    })
 }
 
 function fill_install(type) {
