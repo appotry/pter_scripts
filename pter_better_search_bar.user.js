@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Pter Better Search-bar
+// @name         Pter Better Search-bar for games
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
 // @version      0.0.1
 // @description  Game Uploady for Pterclub
