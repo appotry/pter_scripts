@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Better Search-bar for games
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.0
+// @version      0.1.1
 // @description  Game Search-bar for Pterclub
 // @author       Scatowl
 // @match        https://pterclub.com/torrents.php?cat=409*
@@ -29,7 +29,7 @@ function make_better(){
     $("select[name='tag_cantonese']").replaceWith('<input type="checkbox" name="tag_cantonese" value="yes">');
     $("select[name='tag_doityourself']").replaceWith('<input type="checkbox" name="tag_doityourself" value="yes">');
     $("select[name='tag_master']").replaceWith('<input type="checkbox" name="tag_sce" value="yes">');
-    $("a[href='\/torrents.php?tag_master=yes']").replaceWith("<a style=\"margin-left: 5px;\" href=\"torrents.php?tag_sce=yes\" one-link-mark=\"yes\">Scene</a>")
+    $("a[href='\/torrents.php?tag_master=yes']").replaceWith("<a style=\"margin-left: 5px;\" href=\"torrents.php?tag_sce=yes\" one-link-mark=\"yes\">Scene</a>");
     $("a[href='\/torrents.php?tag_gg=yes']").after("&nbsp;&nbsp;<input type=\"checkbox\" name=\"tag_vs\" value=\"yes\"> <a style=\"margin-left: 5px;\" href=\"torrents.php?tag_vs=yes\" one-link-mark=\"yes\">可信源</a>");
 
     //修改平台:
@@ -41,10 +41,10 @@ function make_better(){
         '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source46" name="source46"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="Linux" title="Linux" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/Linux.png);"></a></td>\n' +
         '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source37" name="source37"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="MAC" title="MAC" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/MAC.png);"></a></td>\n' +
         '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source24" name="source24"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="GBA" title="GBA" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/GBA.png);"></a></td>\n' +
-        '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source21" name="source21"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="FC_NES" title="FC_NES" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/FC_NES.png);"></a></td>\n')
-    // $("input[name='cat_check']").replaceWith('<td colspan="2" class="bottom" style="padding-left: 15px" align="left"><input name="source_check" value="全选" class="btn medium" type="button" onclick="javascript:SetChecked(\'source\',\'source_check\',\'全选\',\'全不选\',-1,10)"></td>')
+        '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source21" name="source21"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="FC_NES" title="FC_NES" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/FC_NES.png);"></a></td>\n');
+    $("input[name='cat_check']").remove();
     const aim = $("input#cat412").parent().next();
-    aim.siblings().remove()
+    aim.siblings().remove();
     aim.before('<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source17" name="source17"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="DOS" title="DOS" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/DOS.png);"></a></td>\n' +
         '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source34" name="source34"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="PSP" title="PSP" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/PSP.png);"></a></td>\n' +
         '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source33" name="source33"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="PS2" title="PS2" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/PS2.png);"></a></td>\n' +
