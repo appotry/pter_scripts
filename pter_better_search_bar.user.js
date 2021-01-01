@@ -14,7 +14,14 @@
 // ==/UserScript==
 function make_better(){
     'use strict';
-    <!--   修改标签:-->
+    //删除无用栏目:
+    const enemy = $("#source1").parent().parent();
+    enemy.prev().remove();
+    enemy.next().remove();
+    enemy.next().remove();
+    enemy.remove()
+
+    //修改标签:
     $("select[name='tag_exclusive']").before('<input type="checkbox" name="cat409" style="display: none" value="yes" checked="checked">');
     $("select[name='tag_exclusive']").replaceWith('<input type="checkbox" name="tag_exclusive" value="yes">');
     $("select[name='tag_internal']").replaceWith('<input type="checkbox" name="tag_internal" value="yes">');
@@ -24,7 +31,8 @@ function make_better(){
     $("select[name='tag_master']").replaceWith('<input type="checkbox" name="tag_sce" value="yes">');
     $("a[href='\/torrents.php?tag_master=yes']").replaceWith("<a style=\"margin-left: 5px;\" href=\"torrents.php?tag_sce=yes\" one-link-mark=\"yes\">Scene</a>")
     $("a[href='\/torrents.php?tag_gg=yes']").after("&nbsp;&nbsp;<input type=\"checkbox\" name=\"tag_vs\" value=\"yes\"> <a style=\"margin-left: 5px;\" href=\"torrents.php?tag_vs=yes\" one-link-mark=\"yes\">可信源</a>");
-    <!--   修改平台:-->
+
+    //修改平台:
     const location = $("input#cat401").parent().parent();
     location.empty();
     append:location.append('<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source16" name="source16"  value="1"><a href="?source=16" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="Windows" title="Windows" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/Windows.png);"></a></td>\n' +
@@ -34,9 +42,22 @@ function make_better(){
         '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source37" name="source37"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="MAC" title="MAC" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/MAC.png);"></a></td>\n' +
         '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source24" name="source24"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="GBA" title="GBA" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/GBA.png);"></a></td>\n' +
         '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source21" name="source21"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="FC_NES" title="FC_NES" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/FC_NES.png);"></a></td>\n')
-    $("input[name='cat_check']").replaceWith('<td colspan="2" class="bottom" style="padding-left: 15px" align="left"><input name="source_check" value="全选" class="btn medium" type="button" onclick="javascript:SetChecked(\'source\',\'source_check\',\'全选\',\'全不选\',-1,10)"></td>')
+    // $("input[name='cat_check']").replaceWith('<td colspan="2" class="bottom" style="padding-left: 15px" align="left"><input name="source_check" value="全选" class="btn medium" type="button" onclick="javascript:SetChecked(\'source\',\'source_check\',\'全选\',\'全不选\',-1,10)"></td>')
     const aim = $("input#cat412").parent().next();
     aim.siblings().remove()
-    aim.before('<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source21" name="source21"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="FC_NES" title="FC_NES" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/FC_NES.png);"></a></td>\n')
+    aim.before('<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source17" name="source17"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="DOS" title="DOS" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/DOS.png);"></a></td>\n' +
+        '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source34" name="source34"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="PSP" title="PSP" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/PSP.png);"></a></td>\n' +
+        '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source33" name="source33"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="PS2" title="PS2" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/PS2.png);"></a></td>\n' +
+        '<td class="bottom" style="padding-bottom: 4px; padding-left: 3px;" align="left"> <input type="checkbox" id="source35" name="source35"  value="1"><a href="?source=31" one-link-mark="yes"><img class="c_game" src="pic/cattrans.gif" alt="PS3" title="PS3" style="background-image: url(pic/category/chd/scenetorrents/chs/additional/PS3.png);"></a></td>\n')
 }
-make_better()
+$(function(){
+    make_better();
+    $('input[name^="source"]').each(function(){
+        $(this).click(function(){
+            if($(this).prop('checked')){
+                $('input[name^="source"]').prop('checked',false);
+                $(this).prop('checked',true);
+            }
+        });
+    });
+});
