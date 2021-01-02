@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Movie Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.0
+// @version      0.1.1
 // @description  Auto get movie&TV info from douban&imdb for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/upload.php*
@@ -16,8 +16,20 @@ function fill_form(response) {
     let data = response.response;
     $('#descr').val(data['format']);
     if (data['site'] === 'douban'){
+        var trans_titles='',directors='',casts='';
+        data.trans_title.forEach(function (trans_title) {
+            trans_titles += trans_title + '/ '
+        });
+        data.director.forEach(function (director) {
+            directors = /(.+?)\s/.exec(director['name']).pop()
+        });
+        var actors = data.cast.slice(0,3)
+        actors.forEach(function (cast) {
+            casts += /(.+?)\s/.exec(cast['name']).pop()+'/ '
+        });
+        const subtitle = trans_titles + '| ' + "导演：" + directors + '| ' + '主演：' + casts;
         $('input[name="url"][type="text"]').val(data['imdb_link']);
-        // $('input[name="douban"]').val(douban)
+        $('input[name="small_descr"]').val(subtitle)
     }
 }
 
