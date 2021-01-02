@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Movie Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.1
+// @version      0.1.2
 // @description  Auto get movie&TV info from douban&imdb for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/upload.php*
@@ -17,13 +17,17 @@ function fill_form(response) {
     $('#descr').val(data['format']);
     if (data['site'] === 'douban'){
         var trans_titles='',directors='',casts='';
-        data.trans_title.forEach(function (trans_title) {
-            trans_titles += trans_title + '/ '
-        });
+        console.log(data['foreign_title']);
+        if (data['foreign_title'].length == 0){ trans_titles= data['chinese_title']}
+        else {
+            data.trans_title.forEach(function (trans_title) {
+                trans_titles += trans_title + '/ '
+            });
+        }
         data.director.forEach(function (director) {
             directors = /(.+?)\s/.exec(director['name']).pop()
         });
-        var actors = data.cast.slice(0,3)
+        var actors = data.cast.slice(0,3);
         actors.forEach(function (cast) {
             casts += /(.+?)\s/.exec(cast['name']).pop()+'/ '
         });
@@ -69,6 +73,6 @@ function triger(url) {
 
     imdb_url.after('<a href="javascript:;" id="fill_imdb" style="color:green">Auto Fill</a>');
     douban_url.after('<a href="javascript:;" id="fill_douban" style="color:green">Auto Fill</a>');
-    $('#fill_imdb').click(function () {triger(imdb_url.val())})
+    $('#fill_imdb').click(function () {triger(imdb_url.val())});
     $('#fill_douban').click(function () {triger(douban_url.val())})
 })();
