@@ -45,7 +45,7 @@ function triger(url) {
     }
     if (url.indexOf("douban.com/") !== -1){ get_info(url)}
     else {
-        let id = /\/(tt\d+)\//.exec(url).pop();
+        let id = /\/(tt\d+)/.exec(url).pop();
         GM.xmlHttpRequest({
             method: "GET",                  //We call the Steam API to get info on the game
             url: "https://autofill.scatowl.workers.dev/?search="+id,
