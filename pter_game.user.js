@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.1
+// @version      1.1.2
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -269,7 +269,7 @@ function choose_form(key) {
     }
     else if(key.indexOf('indienova') !== -1){
         key = key.substring(0,key.length-1);
-        url = "https://ptgen.rhilip.workers.dev/gen?url="+key;
+        url = "https://autofill.scatowl.workers.dev/?url="+key;
         fill_form = indienova_form
     }
     return url;
