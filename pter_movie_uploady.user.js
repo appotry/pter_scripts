@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Movie Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.0.1
+// @version      0.1.0
 // @description  Auto get movie&TV info from douban&imdb for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/upload.php*
@@ -13,17 +13,17 @@
 // ==/UserScript==
 
 function fill_form(response) {
-    data = response.response;
+    let data = response.response;
     $('#descr').val(data['format']);
     if (data['site'] === 'douban'){
-        $('input[name="url"]').val(data['imdb_link']);
+        $('input[name="url"][type="text"]').val(data['imdb_link']);
         // $('input[name="douban"]').val(douban)
     }
 }
 
 
 function triger(url) {
-    function get_douban(url) {
+    function get_info(url) {
         GM.xmlHttpRequest({
             method: "GET",                  //We call the Steam API to get info on the game
             url: "https://autofill.scatowl.workers.dev/?url="+url,
@@ -31,22 +31,21 @@ function triger(url) {
             onload: fill_form
         });
     }
-    if (url.indexOf("douban.com/") !== -1){ get_douban(url)}
+    if (url.indexOf("douban.com/") !== -1){ get_info(url)}
     else {
         let id = /\/(tt\d+)\//.exec(url).pop();
-        console.log(id)
         GM.xmlHttpRequest({
             method: "GET",                  //We call the Steam API to get info on the game
             url: "https://autofill.scatowl.workers.dev/?search="+id,
             responseType: "json",
             onload: function (response) {
-                console.log(response.response);
                 try {
-                    let douban_url = response.response.data[0].link;
-                    $('input[name="douban"]').val(douban_url);
-                    get_douban(douban_url);
+                    url = response.response.data[0].link;
+                    $('input[name="douban"]').val(url);
+
                 }
-                catch (TypeError)  {alert("暂时无法获取")}
+                catch (TypeError)  {console.log('no douban page')}
+                finally {get_info(url);}
             }
         });
     }
