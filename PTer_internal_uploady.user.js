@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Internal Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.0
+// @version      0.1.1
 // @description  Auto get movie&TV info from douban&imdb for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/PTer.php*
@@ -19,7 +19,7 @@ function fill_form(response) {
     if (data['foreign_title'].length == 0){ trans_titles= data['chinese_title']}
     else {
         data.trans_title.forEach(function (trans_title) {
-            trans_titles += trans_title + '/ '
+            trans_titles += trans_title + ' '
         });
     }
     data.director.forEach(function (director) {
@@ -27,9 +27,9 @@ function fill_form(response) {
     });
     var actors = data.cast.slice(0,3);
     actors.forEach(function (cast) {
-        casts += /(.+?)\s/.exec(cast['name']).pop()+'/ '
+        casts += /(.+?)\s/.exec(cast['name']).pop()+' '
     });
-    const subtitle = trans_titles + '| ' + "导演：" + directors + '| ' + '主演：' + casts;
+    const subtitle = trans_titles + ' | ' + "导演：" + directors + ' | ' + '主演：' + casts;
     $('#smalldescription').val(subtitle)
 }
 
