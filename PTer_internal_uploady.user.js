@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Internal Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.1
+// @version      0.1.2
 // @description  Auto get movie&TV info from douban&imdb for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/PTer.php*
@@ -34,8 +34,14 @@ function fill_form(response) {
 }
 
 (function() {
-    $('#smalldescription').parent().parent().after("<tr><td>豆瓣地址</td><td><input style='width: 450px;' id='douban' /></td></tr>");
+    let small_desc = $('#smalldescription');
+    small_desc.parent().parent().before("<tr><td class='rowhead nowrap' valign=top align=right>豆瓣地址</td><td><input style='width: 650px;' id='douban' /></td></tr>");
     $('#douban').after('<a href="javascript:;" id="Auto_Fill" style="color:green">Auto Fill</a>');
+    small_desc.after('<a href="javascript:;" id="fill_cs" style="color:green">[国语中字]</a>');
+    $('#fill_cs').click(function () {
+      const cstext = small_desc.val() + "[国语中字]";
+      small_desc.val(cstext);
+    });
     $('#Auto_Fill').click(function () {
         GM.xmlHttpRequest({
             method: "GET",                  //We call the Steam API to get info on the game
