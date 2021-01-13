@@ -26,7 +26,7 @@ async function do_wof(times) {
             body:'option=3&submit=交换'
         });
         // console.log(i);
-        await timer(1000)
+        await timer(750)
         // location.reload()
     }
     alert(`恭喜，你已经兑换了${i-1}次了!`)
