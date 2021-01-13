@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Bonus Eater
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.0.1
+// @version      0.0.2
 // @description  consume your bonus immediately
 // @author       scatking
 // @match        https://pterclub.com/mybonus.php*
@@ -26,7 +26,7 @@ async function do_wof(times) {
             body:'option=3&submit=交换'
         });
         // console.log(i);
-        await timer(750)
+        await timer(1000)
         // location.reload()
     }
     alert(`恭喜，你已经兑换了${i-1}次了!`)
