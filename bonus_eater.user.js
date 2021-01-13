@@ -23,7 +23,7 @@ async function do_wof(times) {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body:'option=1&submit=交换'
+            body:'option=3&submit=交换'
         });
         // console.log(i);
         await timer(750)
