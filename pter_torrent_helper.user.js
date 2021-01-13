@@ -37,13 +37,13 @@ function find_rls(rlsid) {
 
 function fill_nfo(response) {
     'use strict';
-    const token = /nfo=(\d+?)&secret=(.+?)&font=FONTIDX/.exec(response.response);
-    let imgurl = `https://www.xrel.to/nfo-a/${token[1]}-${token[2]}/c90fd3b2-1.png`;
+    const token = /rls_id=(\d+?)&nfo_id=(\d+?)&secret=(.+?)&font=FONTIDX/.exec(response.response);
+    let imgurl = `https://www.xrel.to/nfo-a/${token[1]}-${token[2]}-${token[3]}/c90fd3b2-1.png`;
     GM.xmlHttpRequest({
         method: "GET",
         url: imgurl,
         onload: function (response){
-            if (/image\/png/g.exec(response.responseHeaders) === null){imgurl =`https://www.xrel.to/nfo-a/${token[1]}-${token[2]}/c90fd3b2-2.png` }
+            if (/image\/png/g.exec(response.responseHeaders) === null){imgurl =`https://www.xrel.to/nfo-a/${token[1]}-${token[2]}-${token[3]}/c90fd3b2-2.png` }
             const descr =$('#descr');
             const nfo_descr =  descr.val() + `[center][img]${imgurl}[/img][/center]`;
             descr.val(nfo_descr)
