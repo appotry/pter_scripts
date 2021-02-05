@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.3
+// @version      1.1.4
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -180,7 +180,6 @@ function epic_form(response) {
             break;
         }
     }
-    console.log(gameInfo)
     var about = gameInfo.data.about.description;
     var date = gameInfo.data.meta['releaseDate'];
     var year = date.split("-").shift();
@@ -188,9 +187,15 @@ function epic_form(response) {
     if (about === "") {about = gameInfo.data.about.shortDescription; }
     about = "[center][b][u]关于游戏[/u][/b][/center]\n" + `[b]发行日期[/b]：${date}\n\n[b]商店链接[/b]：${store}\n\n` + markdown2bb(about).trim();
     var screens = '';
-    gameInfo.data.gallery.galleryImages.forEach(function (screen) {
-        screens += "[img]" + screen["src"] + "[/img]\n"
-    });
+    try{
+        gameInfo.data.gallery.galleryImages.forEach(function (screen) {
+            screens += "[img]" + screen["src"] + "[/img]\n"
+    })
+    }catch (e) {
+        gameInfo._images_.forEach(function (screen) {
+            screens += "[img]" + screen + "[/img]\n"
+        })
+    }
     var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + "[center]" + screens + "[/center]" ;
     var desc_field = "textarea[name='body']";
 
