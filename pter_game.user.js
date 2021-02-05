@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.4
+// @version      1.1.5
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -183,9 +183,8 @@ function epic_form(response) {
     var about = gameInfo.data.about.description;
     var date = gameInfo.data.meta['releaseDate'];
     var year = date.split("-").shift();
-    var store = 'https://www.epicgames.com/store/zh-CN/product/' + $("#epicid").val();
     if (about === "") {about = gameInfo.data.about.shortDescription; }
-    about = "[center][b][u]关于游戏[/u][/b][/center]\n" + `[b]发行日期[/b]：${date}\n\n[b]商店链接[/b]：${store}\n\n` + markdown2bb(about).trim();
+    about = "[center][b][u]关于游戏[/u][/b][/center]\n" + `[b]发行日期[/b]：${date}\n\n[b]商店链接[/b]：${$("#gameid").val()}\n\n` + markdown2bb(about).trim();
     var screens = '';
     try{
         gameInfo.data.gallery.galleryImages.forEach(function (screen) {
