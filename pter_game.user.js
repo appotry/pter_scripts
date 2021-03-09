@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.5
+// @version      1.1.6
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -268,7 +268,7 @@ function choose_form(key) {
     }
     else if(key.indexOf("epicgames.com") !== -1) {
 
-        var epicid = /product\/(.+?)\//g.exec(key).pop();
+        var epicid = /p\/(.+?)\//g.exec(key).pop();
         url ="https://store-content.ak.epicgames.com/api/zh-CN/content/products/"+epicid;
         fill_form = epic_form;
     }
