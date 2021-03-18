@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.3.3
+// @version      0.4.0
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -34,19 +34,31 @@ function find_rls(rlsid) {
         }
     });
 }
-
-function fill_nfo(response) {
+// api_key = 26c350d051aa9be55b7d7cea1f082178
+async function fill_nfo(response_data) {
     'use strict';
-    const token = /rls_id=(\d+?)&nfo_id=(\d+?)&secret=(.+?)&font=FONTIDX/.exec(response.response);
+    const token = /rls_id=(\d+?)&nfo_id=(\d+?)&secret=(.+?)&font=FONTIDX/.exec(response_data.response);
     let imgurl = `https://www.xrel.to/nfo-a/${token[1]}-${token[2]}-${token[3]}/c90fd3b2-1.png`;
+    function up2imgbb(){
+        GM.xmlHttpRequest({
+            method: "GET",
+            url: 'https://api.imgbb.com/1/upload?key=634784fb0883e2da72a22668d7583b49&image='+imgurl,
+            responseType: 'json',
+            onload: function (response) {
+                if (response.responseText.success === true) {imgurl = response.responseText.data.display_url;}
+                const descr =$('#descr');
+                const nfo_descr =  descr.val() + `[center][img]${imgurl}[/img][/center]`;
+                descr.val(nfo_descr)
+
+            }
+        })
+    }
     GM.xmlHttpRequest({
         method: "GET",
         url: imgurl,
-        onload: function (response){
+        onload: async function (response){
             if (/image\/png/g.exec(response.responseHeaders) === null){imgurl =`https://www.xrel.to/nfo-a/${token[1]}-${token[2]}-${token[3]}/c90fd3b2-2.png` }
-            const descr =$('#descr');
-            const nfo_descr =  descr.val() + `[center][img]${imgurl}[/img][/center]`;
-            descr.val(nfo_descr)
+            await up2imgbb();
         }
     })
 }
