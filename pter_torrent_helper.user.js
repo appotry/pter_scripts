@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.4.0
+// @version      0.4.1
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -42,7 +42,7 @@ async function fill_nfo(response_data) {
     function up2imgbb(){
         GM.xmlHttpRequest({
             method: "GET",
-            url: 'https://api.imgbb.com/1/upload?key=634784fb0883e2da72a22668d7583b49&image='+imgurl,
+            url: 'https://api.imgbb.com/1/upload?key=26c350d051aa9be55b7d7cea1f082178&image='+imgurl,
             responseType: 'json',
             onload: function (response) {
                 if (response.responseText.success === true) {imgurl = response.responseText.data.display_url;}
