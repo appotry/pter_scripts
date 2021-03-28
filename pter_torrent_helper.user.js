@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.4.2
+// @version      0.4.3
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -85,7 +85,7 @@ function release_name(title,name) {
     let raw_name = name.replace(/[:._–\- &]/g, '');
     let pattern = raw_name.replace(/./g,'.*?$&');
     pattern = new RegExp(pattern,'ig');
-    $("#name").val(title.replace(pattern, '').replace(/\./g, ' ').replace(/_/g, ' ').trim().replace(/(?<=\d) (?=\d)/g, '.'))
+    $("#name").val(title.replace(pattern, '').replace(/\./g, ' ').replace(/_/g, ' ').trim().replace(/(?<=\d) (?=\d)/g, '.').replace('[FitGirl Repack]','-Firgirl'))
 }
 
 (function() {
