@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.4.1
+// @version      0.4.2
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -81,23 +81,18 @@ function fill_install(type) {
     descr.val(ins_descr)
 }
 
+function release_name(title,name) {
+    let raw_name = name.replace(/[:._–\- &]/g, '');
+    let pattern = raw_name.replace(/./g,'.*?$&');
+    pattern = new RegExp(pattern,'ig');
+    $("#name").val(title.replace(pattern, '').replace(/\./g, ' ').replace(/_/g, ' ').trim().replace(/(?<=\d) (?=\d)/g, '.'))
+}
+
 (function() {
     'use strict';
+    const game_name = $("h1#top").text().slice(0,-4).trim();
+    const torrent = $('#torrent');
     if (window.location.href.includes("uploadgame")){
-        const torrent = $('#torrent');
-        torrent.change(function () {
-            //去掉路径和后缀
-            var rlsname = torrent.val().replace('C:\\fakepath\\','').replace('.torrent','');
-            try {
-                // 去掉外站内容
-                rlsname = /\((.+?([\w/.-]+))\)/.exec(rlsname).pop();
-            }catch(e) {
-                // 去掉内站常用前后缀
-                rlsname = rlsname.replace(/(?:\[\w+?])?/g,'').replace(/^\.+/,'');
-            }finally {
-                $("#rlsid").val (rlsname);
-            }
-        });
         $("#name").parent().parent().after(
         "<tr><td>rls name</td><td><input style='width: 450px;' id='rlsid' /></td></tr>"
         );
@@ -107,8 +102,24 @@ function fill_install(type) {
         "<tr><td>rls name</td><td><input style='width: 450px;' id='rlsid' /></td></tr>"
         );
     }
+    torrent.change(function () {
+        //去掉路径和后缀
+        window.rlsname = torrent.val().replace('C:\\fakepath\\','').replace('.torrent','');
+        try {
+            // 去掉外站内容
+            rlsname = /(?<=.+-.+- \d{4} \().+?[\w/.\- ]+(?=\))/.exec(rlsname).pop();
+        }catch(e) {
+            // 去掉内站常用前后缀
+            rlsname = rlsname.replace(/(?:\[\w+?])?/g,'').replace(/^\.+/,'');
+        }finally {
+            $("#rlsid").val (rlsname);
+
+        }
+    });
     $("#rlsid").after(
         '<a href="javascript:;" id="get_nfo" style="color:green">NFO</a> <a href="javascript:;" id="fill_iso" style="color:blue">ISO</a> <a href="javascript:;" id="fill_fit" style="color:orange">Fitgirl</a> <a href="javascript:;" id="fill_3dm" style="color:red">3DM</a>');
+    $("#name").after('<a href="javascript:;" id="get_rls" style="color:red">Title</a>');
+    $('#get_rls').click(function () { release_name(rlsname,game_name)})
     $('#get_nfo').click(function () { find_rls($("#rlsid").val());});
     $('#fill_iso').click(function () { fill_install('iso');});
     $('#fill_fit').click(function () { fill_install('fit');});
