@@ -3,11 +3,11 @@
 // @namespace    https://pterclub.com
 // @version      0.0.1
 // @description  猫站论坛缓存
-// @author       soleil
+// @author       scat
+// @credits      soleil
 // @include      http*://*pterclub.com/forums.php?action=newtopic&forumid=*
 // @include      https://pterclub.com/forums.php?action=reply*
 // @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
-// @grant        none
 // @charset		 UTF-8
 // ==/UserScript==
 
