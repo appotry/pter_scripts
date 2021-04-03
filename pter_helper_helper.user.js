@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Helper Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.0
+// @version      0.1.2
 // @description  Help per-helper moderate torrents
 // @author       scatking
 // @match        https://pterclub.com/details.php?id=*
@@ -76,7 +76,7 @@ async function checker(state,post_id) {
 }
 
 function set_key() {
-    $('#outer > table:nth-child(12) > tbody:nth-child(1) > tr:nth-child(1)').after(
+    $('td.rowhead:contains("加入日期")').parent('tr').after(
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>审核无误</td><td><input style='width: 450px;' id='perfect' /></td></tr>" +
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>帮忙修改</td><td><input style='width: 450px;' id='good' /></td></tr>" +
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>需要跟进</td><td><input style='width: 450px;' id='pending' /></td></tr>" +
@@ -84,6 +84,11 @@ function set_key() {
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>并不理我</td><td><input style='width: 450px;' id='bbad' /></td></tr>"
     );
     $('#bbad').after('<a href="javascript:;" id="set" style="color:green">完成设置</a>');
+    $('#perfect').val(window.localStorage.getItem(PERFECTPOST));
+    $('#good').val(window.localStorage.getItem(GOODPOST));
+    $('#pending').val(window.localStorage.getItem(PENDINGPOST));
+    $('#finished').val(window.localStorage.getItem(FINISHEDPOST));
+    $('#bbad').val(window.localStorage.getItem(BADPOST));
     $('#set').click(function () {window.localStorage.setItem(PERFECTPOST,$('#perfect').val());
                                 window.localStorage.setItem(GOODPOST,$('#good').val());
                                 window.localStorage.setItem(PENDINGPOST,$('#pending').val());
