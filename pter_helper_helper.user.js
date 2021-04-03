@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Pter Helper Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.2
+// @version      0.1.3
 // @description  Help per-helper moderate torrents
 // @author       scatking
 // @match        https://pterclub.com/details.php?id=*
-// @match        https://pterclub.com/usercp.php
+// @match        https://pterclub.com/usercp.php*
 // @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
 // @require      https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @icon         https://pterclub.com/favicon.ico
@@ -76,7 +76,7 @@ async function checker(state,post_id) {
 }
 
 function set_key() {
-    $('td.rowhead:contains("加入日期")').parent('tr').after(
+    $('td.rowhead:contains("加入日期")').parent().after(
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>审核无误</td><td><input style='width: 450px;' id='perfect' /></td></tr>" +
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>帮忙修改</td><td><input style='width: 450px;' id='good' /></td></tr>" +
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>需要跟进</td><td><input style='width: 450px;' id='pending' /></td></tr>" +
