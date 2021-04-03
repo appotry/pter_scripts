@@ -22,16 +22,17 @@ async function checker(state,post_id) {
     state = {1:'种子初步检查无误，建议审核通过',2:'种子存在问题，但已帮忙修改完成，可以审核通过',
         4:'种子存在问题，但已修改完成，可以审核通过',5:'发种人未在48小时内完成种子修改，建议进一步处理',3:''}[state];
     let torrent_url = window.location.href;
+    let pending_post_id = window.localStorage.getItem(PENDINGPOST);
     let torrent_id = torrent_url.match(/details\.php\?id=(\d+)/)[1];
     let posts = (await fetch(`https://pterclub.com/forums.php?action=editpost&postid=${post_id}`));
     posts = await posts.text();
-    posts = posts.match(/">[\s\S]+">([\s\S]+?)<\/textarea>/m)[1].replace(torrent_url,'');
-    posts = `${posts}\r\n${torrent_url}`.trim();
-    let pending_post = (await fetch(`https://pterclub.com/forums.php?action=editpost&postid=${window.localStorage.getItem(PENDINGPOST)}`));
+    posts = posts.match(/">[\s\S]+">([\s\S]+?)<\/textarea>/m)[1].replace(torrent_url,'').trim();
+    posts = `${posts}\r\n${torrent_url}`;
+    let pending_post = (await fetch(`https://pterclub.com/forums.php?action=editpost&postid=${pending_post_id}`));
     pending_post = await pending_post.text();
     pending_post = pending_post.match(/">[\s\S]+">([\s\S]+?)<\/textarea>/m)[1].replace(torrent_url,'').trim();
-    console.log(pending_post);
-    const data = {
+    console.log(posts);
+    let data = {
           'id': post_id,
           'type': 'edit',
           'quoteid': '0',
@@ -62,6 +63,7 @@ async function checker(state,post_id) {
     });
     if (state !== 3){
         data.body = pending_post;
+        data.id = pending_post_id;
         await fetch('https://pterclub.com/forums.php?action=post',{
         method : 'POST',
         headers: {
