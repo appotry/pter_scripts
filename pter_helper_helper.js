@@ -12,9 +12,6 @@
 // @grant        GM.xmlHttpRequest
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
-// ">[.\n]+"
-const timer = ms => new Promise(res => setTimeout(res, ms));
-
 PERFECTPOST = 'perfect';
 GOODPOST = 'good';
 PENDINGPOST = 'pending';
@@ -28,30 +25,49 @@ async function checker(state,post_id) {
     let torrent_id = torrent_url.match(/details\.php\?id=(\d+)/)[1];
     let posts = (await fetch(`https://pterclub.com/forums.php?action=editpost&postid=${post_id}`));
     posts = await posts.text();
-    let pre_posts = posts.match(/">[\s\S]+">([\s\S]+?)<\/textarea>/m)[1].replace(torrent_url,'');
-    posts = `${pre_posts}\n${torrent_url}`;
-    console.log(posts);
+    posts = posts.match(/">[\s\S]+">([\s\S]+?)<\/textarea>/m)[1].replace(torrent_url,'');
+    posts = `${posts}\r\n${torrent_url}`.trim();
+    let pending_post = (await fetch(`https://pterclub.com/forums.php?action=editpost&postid=${window.localStorage.getItem(PENDINGPOST)}`));
+    pending_post = await pending_post.text();
+    pending_post = pending_post.match(/">[\s\S]+">([\s\S]+?)<\/textarea>/m)[1].replace(torrent_url,'').trim();
+    console.log(pending_post);
+    const data = {
+          'id': post_id,
+          'type': 'edit',
+          'quoteid': '0',
+          'original_name': '',
+          'original_body': '',
+          'color': '0',
+          'font': '0',
+          'size': '0',
+          'body': posts
+            };
+    function formatData(data) {
+    const result = Object.entries(data).map(([key, value]) => `${key}=${value}`).join('&');
+	return result;
+        }
     await fetch('https://pterclub.com/report.php',{
         method : 'POST',
-        body: `taketorrent=${torrent_id}&reason=${state}`,
         headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-            }
+            },
+        body: `taketorrent=${torrent_id}&reason=${state}`,
     }).then(function () {fetch('https://pterclub.com/forums.php?action=post',{
         method: 'POST',
         headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-        body: `id=${post_id}&type=edit&original_name=''&original_body=''&color=0&font=0&size=0&body=${posts}`
+        body: formatData(data)
     })
     });
     if (state !== 3){
+        data.body = pending_post;
         await fetch('https://pterclub.com/forums.php?action=post',{
         method : 'POST',
-        body: `id=${post_id}&type=edit&original_name=''&original_body=''&color=0&font=0&size=0&body=${pre_posts}`,
         headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formatData(data),
     })
     }
     return `种子：${torrent_id} 检查完毕！`
