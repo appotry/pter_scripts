@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Pter Helper Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.6
-// @description  Game Uploady for Pterclub
-// @author       NeutronNoir, ZeDoCaixao, scatking
+// @version      0.1.0
+// @description  Help per-helper moderate torrents
+// @author       scatking
 // @match        https://pterclub.com/details.php?id=*
 // @match        https://pterclub.com/usercp.php
 // @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
