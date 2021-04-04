@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Helper Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.3
+// @version      0.1.4
 // @description  Help per-helper moderate torrents
 // @author       scatking
 // @match        https://pterclub.com/details.php?id=*
@@ -19,6 +19,7 @@ FINISHEDPOST = 'finished';
 BADPOST = 'bbad';
 
 async function checker(state,post_id) {
+    let state_id = state;
     state = {1:'种子初步检查无误，建议审核通过',2:'种子存在问题，但已帮忙修改完成，可以审核通过',
         4:'种子存在问题，但已修改完成，可以审核通过',5:'发种人未在48小时内完成种子修改，建议进一步处理',3:''}[state];
     let torrent_url = window.location.href;
@@ -61,16 +62,25 @@ async function checker(state,post_id) {
         body: formatData(data)
     })
     });
-    if (state !== 3){
+    if (state_id !== 3){
         data.body = pending_post;
         data.id = pending_post_id;
         await fetch('https://pterclub.com/forums.php?action=post',{
-        method : 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formatData(data),
+            method : 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formatData(data),
     })
+    }
+    if (state_id === 1){
+        await fetch('https://pterclub.com/comment.php?action=add&type=torrent',{
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `body=种子初步检查无误，建议审核通过&pid=${torrent_id}`
+        })
     }
     return `种子：${torrent_id} 检查完毕！`
 }
