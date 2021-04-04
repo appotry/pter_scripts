@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Helper Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.6
+// @version      0.1.7
 // @description  Help per-helper moderate torrents
 // @author       scatking
 // @match        https://pterclub.com/details.php?id=*
@@ -99,15 +99,6 @@ async function checker(state,post_id) {
                         method: 'POST',
                         body: subtitle_post_data
                     })
-        })
-    }
-    if (state_id === 1){
-        await fetch('https://pterclub.com/comment.php?action=add&type=torrent',{
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `body=种子初步检查无误，建议审核通过&pid=${torrent_id}`
         })
     }
     return `种子：${torrent_id} 检查完毕！`
