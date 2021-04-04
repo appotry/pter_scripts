@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Helper Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.5
+// @version      0.1.6
 // @description  Help per-helper moderate torrents
 // @author       scatking
 // @match        https://pterclub.com/details.php?id=*
@@ -17,6 +17,26 @@ GOODPOST = 'good';
 PENDINGPOST = 'pending';
 FINISHEDPOST = 'finished';
 BADPOST = 'bbad';
+MYNAME = 'my_name';
+
+function ergodicData(dom){
+  let xDOM = $("#"+dom +" input");
+  let formdata = new FormData();
+  for (var i = 0; i < xDOM.length; i++) {
+    var a = xDOM.eq(i).attr('name');
+
+    if (xDOM.eq(i).val() === "") {
+      console.log('qaq');
+    } else if (xDOM.eq(i).attr('type')!=='checkbox' ||xDOM.eq(i).attr('checked')){formdata.append(a,xDOM.eq(i).val())}
+  }
+  xDOM = $("#"+dom +" select");
+  for (i = 0; i < xDOM.length; i++){
+      a = xDOM.eq(i).attr('name');
+      let b = xDOM.eq(i).children("[selected='selected']");
+      formdata.append(a,b.val())
+  }
+  return formdata;
+}
 
 async function checker(state,post_id) {
     let state_id = state;
@@ -32,6 +52,10 @@ async function checker(state,post_id) {
     let pending_post = (await fetch(`https://pterclub.com/forums.php?action=editpost&postid=${pending_post_id}`));
     pending_post = await pending_post.text();
     pending_post = pending_post.match(/">[\s\S]+">([\s\S]+?)<\/textarea>/m)[1].replace(torrent_url,'').trim();
+    let subtitle_post_data = ergodicData('kspecialedit');
+    subtitle_post_data.append('id',torrent_id);
+    subtitle_post_data.append('specialedit','true');
+    subtitle_post_data.set('small_descr',`[Checked by ${window.localStorage.getItem(MYNAME)}] ${subtitle_post_data.get('small_descr')}`);
     console.log(posts);
     let data = {
           'id': post_id,
@@ -55,12 +79,12 @@ async function checker(state,post_id) {
             },
         body: `taketorrent=${torrent_id}&reason=${state}`,
     }).then(function () {fetch('https://pterclub.com/forums.php?action=post',{
-        method: 'POST',
-        headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        body: formatData(data)
-    })
+                        method: 'POST',
+                        headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                        body: formatData(data)
+                    })
     });
     if (state_id !== 3){
         data.body = pending_post;
@@ -71,7 +95,11 @@ async function checker(state,post_id) {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: formatData(data),
-    })
+    }).then(function () {fetch('https://pterclub.com/takedetails.php',{
+                        method: 'POST',
+                        body: subtitle_post_data
+                    })
+        })
     }
     if (state_id === 1){
         await fetch('https://pterclub.com/comment.php?action=add&type=torrent',{
@@ -149,19 +177,22 @@ function set_key() {
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>帮忙修改</td><td><input style='width: 450px;' id='good' /></td></tr>" +
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>需要跟进</td><td><input style='width: 450px;' id='pending' /></td></tr>" +
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>完成修改</td><td><input style='width: 450px;' id='finished' /></td></tr>" +
-        "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>并不理我</td><td><input style='width: 450px;' id='bbad' /></td></tr>"
+        "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>并不理我</td><td><input style='width: 450px;' id='bbad' /></td></tr>" +
+        "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>我的昵称</td><td><input style='width: 450px;' id='my_name' /></td></tr>"
     );
-    $('#bbad').after('<a href="javascript:;" id="set" style="color:green">完成设置</a>');
+    $('#my_name').after('<a href="javascript:;" id="set" style="color:green">完成设置</a>');
     $('#perfect').val(window.localStorage.getItem(PERFECTPOST));
     $('#good').val(window.localStorage.getItem(GOODPOST));
     $('#pending').val(window.localStorage.getItem(PENDINGPOST));
     $('#finished').val(window.localStorage.getItem(FINISHEDPOST));
     $('#bbad').val(window.localStorage.getItem(BADPOST));
+    $('#my_name').val(window.localStorage.getItem(MYNAME));
     $('#set').click(function () {window.localStorage.setItem(PERFECTPOST,$('#perfect').val());
                                 window.localStorage.setItem(GOODPOST,$('#good').val());
                                 window.localStorage.setItem(PENDINGPOST,$('#pending').val());
                                 window.localStorage.setItem(FINISHEDPOST,$('#finished').val());
                                 window.localStorage.setItem(BADPOST,$('#bbad').val());
+                                window.localStorage.setItem(MYNAME,$('#my_name').val());
     })
 }
 
@@ -185,5 +216,6 @@ function set_key() {
     $('#fill_cs').click(function () {writeInto()});
     $('#fill_imdb').click(function () {triger($('input[name="url"]').val())});
     $('#fill_douban').click(function () {triger($('input[name="douban"]').val())})
+    ergodicData('kspecialedit')
 })();
 
