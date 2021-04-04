@@ -85,6 +85,64 @@ async function checker(state,post_id) {
     return `种子：${torrent_id} 检查完毕！`
 }
 
+function fill_form(response) {
+    let data = response.response;
+    if (data['site'] === 'douban'){
+        var trans_titles='',directors='',casts='';
+        if (data['foreign_title'].length == 0){ trans_titles= data['chinese_title']}
+        else {
+            data.trans_title.forEach(function (trans_title) {
+                let reg_title = trans_title.replace(/[a-zA-Z\s]/g,'');
+                if (reg_title.length != 0 && reg_title != trans_title){reg_title = trans_title}
+                trans_titles += reg_title + ' '
+            });
+        }
+        data.director.forEach(function (director) {
+            directors = /(.+?)\s/.exec(director['name']).pop()
+        });
+        var actors = data.cast.slice(0,3);
+        actors.forEach(function (cast) {
+            casts += /(.+?)\s/.exec(cast['name']).pop()+' '
+        });
+        let subtitle = trans_titles + ' | ' + "导演：" + directors + ' | ' + '主演：' + casts;
+        subtitle= subtitle.replace(/\s+/g,' ');
+        $('input[name="imdbpoint"][type="text"]').val(data.imdb_rating_average);
+        $('input[name="dbpoint"][type="text"]').val(data.douban_rating_average);
+        $('input[name="url"][type="text"]').val(data['imdb_link']);
+        $('input[id="subtitle"]').val(subtitle)
+    }
+}
+
+
+function triger(url) {
+    function get_info(url) {
+        GM.xmlHttpRequest({
+            method: "GET",                  //We call the Steam API to get info on the game
+            url: "https://autofill.scatowl.workers.dev/?url="+url,
+            responseType: "json",
+            onload: fill_form
+        });
+    }
+    if (url.indexOf("douban.com/") !== -1){ get_info(url)}
+    else {
+        let id = /\/(tt\d+)/.exec(url).pop();
+        GM.xmlHttpRequest({
+            method: "GET",                  //We call the Steam API to get info on the game
+            url: "https://autofill.scatowl.workers.dev/?search="+id,
+            responseType: "json",
+            onload: function (response) {
+                try {
+                    url = response.response.data[0].link;
+                    $('input[name="douban"]').val(url);
+
+                }
+                catch (TypeError)  {console.log('no douban page')}
+                finally {get_info(url);}
+            }
+        });
+    }
+}
+
 function set_key() {
     $('td.rowhead:contains("加入日期")').parent().after(
         "<tr><td class='rowhead nowrap' width='1%' valign='top' align='right' style='color: red'>审核无误</td><td><input style='width: 450px;' id='perfect' /></td></tr>" +
@@ -119,5 +177,13 @@ function set_key() {
     $('#pending').click(function () {checker(3,post_id=window.localStorage.getItem(PENDINGPOST)).then(alert)});
     $('#finished').click(function () {checker(4,post_id=window.localStorage.getItem(FINISHEDPOST)).then(alert)});
     $('#bbad').click(function () {checker(5,post_id=window.localStorage.getItem(BADPOST)).then(alert)})
+
+
+    $('input[name="imdbpoint"][type="text"]').after('<a href="javascript:;" id="fill_imdb" style="color:green">Auto Fill</a>');
+    $('input[name="dbpoint"]').after('<a href="javascript:;" id="fill_douban" style="color:green">Auto Fill</a>');
+    $('input[name="small_descr"]').after("<input style='width: 650px;' id='subtitle' />")
+    $('#fill_cs').click(function () {writeInto()});
+    $('#fill_imdb').click(function () {triger($('input[name="url"]').val())});
+    $('#fill_douban').click(function () {triger($('input[name="douban"]').val())})
 })();
 
