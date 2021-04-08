@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Helper Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.7
+// @version      0.1.8
 // @description  Help per-helper moderate torrents
 // @author       scatking
 // @match        https://pterclub.com/details.php?id=*
@@ -106,6 +106,7 @@ async function checker(state,post_id) {
 
 function fill_form(response) {
     let data = response.response;
+     $('input[name="imdbpoint"][type="text"]').val(data['imdb_rating_average']);
     if (data['site'] === 'douban'){
         var trans_titles='',directors='',casts='';
         if (data['foreign_title'].length == 0){ trans_titles= data['chinese_title']}
@@ -125,7 +126,7 @@ function fill_form(response) {
         });
         let subtitle = trans_titles + ' | ' + "导演：" + directors + ' | ' + '主演：' + casts;
         subtitle= subtitle.replace(/\s+/g,' ');
-        $('input[name="imdbpoint"][type="text"]').val(data.imdb_rating_average);
+
         $('input[name="dbpoint"][type="text"]').val(data.douban_rating_average);
         $('input[name="url"][type="text"]').val(data['imdb_link']);
         $('input[id="subtitle"]').val(subtitle)
