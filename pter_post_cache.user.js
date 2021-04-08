@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Pter Post Cache
 // @namespace    https://pterclub.com
-// @version      0.0.1
+// @version      0.0.2
 // @description  猫站论坛缓存
 // @author       scat
 // @credits      soleil
 // @include      http*://*pterclub.com/forums.php?action=newtopic&forumid=*
 // @include      https://pterclub.com/forums.php?action=reply*
+// @include      http*://*pterclub.com/forums.php?action=editpost&postid=*
 // @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
 // @charset		 UTF-8
 // ==/UserScript==
@@ -53,7 +54,7 @@
         $("#previewbutton").after('&nbsp;&nbsp;<a class="btn2" id="del_localstorage"  href="javascript:void(0);">&#8855 删除缓存</a>');
         $("#previewbutton").after('&nbsp;&nbsp;<a class="btn2" id="get_localstorage"  href="javascript:void(0);">&#8634 恢复缓存</a>');
         //恢复内容
-        recpostca();
+        if (window.location.href.includes('forums.php?action=editpost&postid=') === false){recpostca()}
     });
 })();
 
