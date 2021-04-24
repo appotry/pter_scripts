@@ -6,7 +6,7 @@
 // @author       scat
 // @credits      soleil
 // @include      http*://*pterclub.com/forums.php?action=newtopic&forumid=*
-// @include      https://pterclub.com/forums.php?action=reply*
+// @include      http*://pterclub.com/forums.php?action=reply*
 // @include      http*://*pterclub.com/forums.php?action=editpost&postid=*
 // @include      http*://pterclub.com/forums.php?action=quotepost*
 // @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
@@ -38,8 +38,10 @@
         };
         //恢复内容
         var recpostca = function () {
-            $("input[name='subject']").val(window.localStorage.getItem(TOKEN_KEY_TITLE));
-            $("#body").val(window.localStorage.getItem(TOKEN_KEY_CONTENT));
+            let title = window.localStorage.getItem(TOKEN_KEY_TITLE);
+            let post = window.localStorage.getItem(TOKEN_KEY_CONTENT);
+            if (title){$("input[name='subject']").val(title);}
+            if (post){$("#body").val(post);}
             console.log(window.localStorage.getItem(TOKEN_KEY_CONTENT))
         };
         //输入内容更新缓存
@@ -57,7 +59,7 @@
         $("#previewbutton").after('&nbsp;&nbsp;<a class="btn2" id="del_localstorage"  href="javascript:void(0);">&#8855 删除缓存</a>');
         $("#previewbutton").after('&nbsp;&nbsp;<a class="btn2" id="get_localstorage"  href="javascript:void(0);">&#8634 恢复缓存</a>');
         //恢复内容
-        if (window.location.href.includes('forums.php?action=editpost&postid=') === false){recpostca()}
+        if (window.location.href.includes('forums.php?action=editpost&postid=') === false && window.location.href.includes('forums.php?action=quotepost&postid=') === false){recpostca()}
     });
 })();
 
