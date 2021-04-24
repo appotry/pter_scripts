@@ -1,13 +1,14 @@
 // ==UserScript==
 // @name         Pter Post Cache
 // @namespace    https://pterclub.com
-// @version      0.0.2
+// @version      0.0.3
 // @description  猫站论坛缓存
 // @author       scat
 // @credits      soleil
 // @include      http*://*pterclub.com/forums.php?action=newtopic&forumid=*
 // @include      https://pterclub.com/forums.php?action=reply*
 // @include      http*://*pterclub.com/forums.php?action=editpost&postid=*
+// @include      http*://pterclub.com/forums.php?action=quotepost*
 // @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
 // @charset		 UTF-8
 // ==/UserScript==
@@ -26,10 +27,14 @@
         };
         //删除缓存
         var delpostca = function () {
-            window.localStorage.removeItem(TOKEN_KEY_TITLE);
-            window.localStorage.removeItem(TOKEN_KEY_CONTENT);
-            $("input[name='subject']").val("");
-            $("#body").val("");
+            let msg = "真的要删除缓存吗？删除缓存后文章内容将消失！";
+            if (confirm(msg)===true){
+                window.localStorage.removeItem(TOKEN_KEY_TITLE);
+                window.localStorage.removeItem(TOKEN_KEY_CONTENT);
+                $("input[name='subject']").val("");
+                $("#body").val("");
+            }
+
         };
         //恢复内容
         var recpostca = function () {
@@ -46,8 +51,6 @@
         $(document).on("click", "#get_localstorage", function() {//一键恢复
             recpostca();
         }).on("click", "#del_localstorage", function() {//删除缓存
-            $("input[name='subject']").val("");
-            $("#body").val("");
             delpostca();
         });
         //增加按钮
