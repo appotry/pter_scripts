@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Pter Movie Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.6
+// @version      0.1.7
 // @description  Auto get movie&TV info from douban&imdb for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/upload.php*
+// @match        https://pterclub.com/edit.php*
 // @require      https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js
 // @require      https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @icon         https://pterclub.com/favicon.ico
@@ -28,7 +29,7 @@ async function fill_form(response) {
             }
         })
     }
-    await up2imgbb()
+    await up2imgbb();
     if (data['site'] === 'douban'){
         var trans_titles='',directors='',casts='';
         if (data['foreign_title'].length == 0){ trans_titles= data['chinese_title']}
@@ -89,15 +90,36 @@ function writeInto(){
     subtitle.val(cstext);
 }
 
+function replaceimg(){
+    let descr = $('#descr').val();
+    let poster = /\[img](.*)\[\/img]/.exec(descr)[1];
+    console.log(poster);
+    GM.xmlHttpRequest({
+        method: "GET",
+        url: 'https://api.imgbb.com/1/upload?key=cc322c352c9f362350d05c7823995020&image='+poster,
+        responseType: 'json',
+        onload: function (response) {
+            if (response.response.success === true) {poster = response.response.data.display_url;}
+            console.log('OK');
+            const img_descr = descr.replace(/\[img].*\[\/img]/,`[img]${poster}[/img]`) ;
+            $('#descr').val(img_descr)
+        }
+    })
+}
+
+
 (function() {
     'use strict';
+    let name = $('input[name="name"][type="text"]');
     let imdb_url = $('input[name="url"][type="text"]');
     let douban_url = $('input[name="douban"]');
     let subtitle = $('input[name="small_descr"]');
 
+    name.after('<a href="javascript:;" id="imgbb" style="color:green">Imgbb it</a>');
     imdb_url.after('<a href="javascript:;" id="fill_imdb" style="color:green">Auto Fill</a>');
     douban_url.after('<a href="javascript:;" id="fill_douban" style="color:green">Auto Fill</a>');
     subtitle.after('<a href="javascript:;" id="fill_cs" style="color:green">[国语中字]</a>');
+    $('#imgbb').click(function () {replaceimg()});
     $('#fill_cs').click(function () {writeInto()});
     $('#fill_imdb').click(function () {triger(imdb_url.val())});
     $('#fill_douban').click(function () {triger(douban_url.val())})
