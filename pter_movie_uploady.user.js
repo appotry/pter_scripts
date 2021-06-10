@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter Movie Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.1.5
+// @version      0.1.6
 // @description  Auto get movie&TV info from douban&imdb for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/upload.php*
@@ -12,9 +12,23 @@
 // @grant        GM_xmlhttpRequest
 // ==/UserScript==
 
-function fill_form(response) {
+async function fill_form(response) {
     let data = response.response;
-    $('#descr').val(data['format']);
+    let poster = data['poster'];
+    function up2imgbb(){
+        GM.xmlHttpRequest({
+            method: "GET",
+            url: 'https://api.imgbb.com/1/upload?key=cc322c352c9f362350d05c7823995020&image='+poster,
+            responseType: 'json',
+            onload: function (response) {
+                if (response.response.success === true) {poster = response.response.data.display_url;}
+                const descr =data['format'];
+                const img_descr =  `[img]${poster}[/img]` + descr.replace(/\[img].*\[\/img]/,'') ;
+                $('#descr').val(img_descr)
+            }
+        })
+    }
+    await up2imgbb()
     if (data['site'] === 'douban'){
         var trans_titles='',directors='',casts='';
         if (data['foreign_title'].length == 0){ trans_titles= data['chinese_title']}
