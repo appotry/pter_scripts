@@ -21,7 +21,7 @@ const output = document.getElementById('descr');
 const onChangeFile = (mediainfo) => {
   const file = fileinput.files[0];
   if (file) {
-    helper.value = '正在解析…';
+    helper.innerText = '正在解析…';
 
     const getSize = () => file.size;
 
@@ -40,10 +40,11 @@ const onChangeFile = (mediainfo) => {
     mediainfo
       .analyzeData(getSize, readChunk)
       .then((result) => {
-        output.value = output.value + "[hide=mediainfo]" + result + "[/hide]\n"
+        helper.innerText = '解析成功';
+        output.value = output.value + "\n[hide=mediainfo]" + result + "[/hide]\n"
       })
       .catch((error) => {
-        helper.value = `解析时发送错误:\n${error.stack}`
+        helper.innerText = `解析时发送错误:\n${error.stack}`
       })
   }
 };
