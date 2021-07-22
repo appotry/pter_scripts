@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTer mediainfo thingy
 // @namespace    https://pterclub.com/
-// @version      1.0
+// @version      1.1
 // @description  Drag & drop files to generate mediainfo
 // @author       scatking
 // @Credits      Eva
@@ -12,101 +12,43 @@
 // @run-at       document-end
 // ==/UserScript==
 
-var CHUNK_SIZE = 5 * 1024 * 1024;
-var miLib, mi;
-var processing = false;
-
-function parseFile(file) {
-    if (processing) {
-        return;
-    }
-    processing = true;
-    document.getElementById('userscript_mediainfo_status').innerText = 'Processing...';
-
-    var fileSize = file.size,
-        offset = 0,
-        state = 0,
-        seekTo = -1,
-        seek = null;
-
-    mi.open_buffer_init(fileSize, offset);
-
-    var processChunk = function(e) {
-        var l;
-        if (e.target.error === null) {
-            var chunk = new Uint8Array(e.target.result);
-            l = chunk.length;
-            state = mi.open_buffer_continue(chunk, l);
-
-            var seekTo = -1;
-            var seekToLow = mi.open_buffer_continue_goto_get_lower();
-            var seekToHigh = mi.open_buffer_continue_goto_get_upper();
-
-            if (seekToLow == -1 && seekToHigh == -1) {
-                seekTo = -1;
-            } else if (seekToLow < 0) {
-                seekTo = seekToLow + 4294967296 + (seekToHigh * 4294967296);
-            } else {
-                seekTo = seekToLow + (seekToHigh * 4294967296);
-            }
-
-            if (seekTo === -1) {
-                offset += l;
-            } else {
-                offset = seekTo;
-                mi.open_buffer_init(fileSize, seekTo);
-            }
-            chunk = null;
-        } else {
-            var msg = '文件处理出错！';
-            console.err(msg, e.target.error);
-            processingDone();
-            alert(msg);
-            return;
-        }
-        // bit 4 set means finalized
-        if (state & 0x08) {
-            var result = mi.inform();
-            mi.close();
-            document.getElementById('descr').value = "[hide=mediainfo]"+result.replace(/^Format\s{7}(\s*)/m, 'Complete name$1: ' + file.name + '\nFormat       $1')+"[/hide]\n"+document.getElementById('descr').value;
-            processingDone();
-            return;
-        }
-        seek(l);
-    };
-
-    function processingDone() {
-      processing = false;
-      document.getElementById('userscript_mediainfo_status').innerText = '⬆请将媒体文件拖入上述文件筐⬆';
-      document.getElementById('userscript_mediainfo_input').value = '';
-    }
-
-    seek = function(length) {
-        if (processing) {
-            var r = new FileReader();
-            var blob = file.slice(offset, length + offset);
-            r.onload = processChunk;
-            r.readAsArrayBuffer(blob);
-        } else {
-            mi.close();
-            processingDone();
-        }
-    };
-
-    // start
-    seek(CHUNK_SIZE);
-}
-
 $("input[name='douban']").parent().parent().after("<tr><td>Media Info</td><td><input type='file' id='userscript_mediainfo_input'></td></tr>");
-miLib = MediaInfo(function() {
-    mi = new miLib.MediaInfo();
+const fileinput = document.getElementById('userscript_mediainfo_input');
+const output = document.getElementById('descr');
+
+const onChangeFile = (mediainfo) => {
+  const file = fileinput.files[0];
+  if (file) {
+    output.value = 'Working…';
+
+    const getSize = () => file.size;
+
+    const readChunk = (chunkSize, offset) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target.error) {
+            reject(event.target.error)
+          }
+          resolve(new Uint8Array(event.target.result))
+        };
+        reader.readAsArrayBuffer(file.slice(offset, offset + chunkSize))
+      });
+
+    mediainfo
+      .analyzeData(getSize, readChunk)
+      .then((result) => {
+        output.value = result
+      })
+      .catch((error) => {
+        output.value = `An error occured:\n${error.stack}`
+      })
+  }
+};
+
+MediaInfo({ format: 'text' }, (mediainfo) => {
+  fileinput.addEventListener('change', () => onChangeFile(mediainfo))
 });
-$('#userscript_mediainfo_input').after("<p id='userscript_mediainfo_status'>⬆请将媒体文件拖入上述文件筐⬆</p>")
-var file_input = document.getElementById("userscript_mediainfo_input");
-file_input.addEventListener('change', function(e) {
-    if (e.target.files.length > 0) {
-        parseFile(e.target.files[0]);
-    }
-});
+
 
 
