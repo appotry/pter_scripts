@@ -13,14 +13,15 @@
 // ==/UserScript==
 
 $("input[name='douban']").parent().parent().after("<tr><td>Media Info</td><td><input type='file' id='userscript_mediainfo_input'></td></tr>");
-$('#userscript_mediainfo_input').after("<p id='userscript_mediainfo_status'>⬆请将媒体文件拖入上述文件筐⬆</p>")
+$('#userscript_mediainfo_input').after("<p id='userscript_mediainfo_status'>⬆请将媒体文件拖入上述文件筐⬆</p>");
+const helper = document.getElementById('userscript_mediainfo_status');
 const fileinput = document.getElementById('userscript_mediainfo_input');
 const output = document.getElementById('descr');
 
 const onChangeFile = (mediainfo) => {
   const file = fileinput.files[0];
   if (file) {
-    output.value = '正在解析…';
+    helper.value = '正在解析…';
 
     const getSize = () => file.size;
 
@@ -42,7 +43,7 @@ const onChangeFile = (mediainfo) => {
         output.value = output.value + "[hide=mediainfo]" + result + "[/hide]\n"
       })
       .catch((error) => {
-        output.value = `解析时发送错误:\n${error.stack}`
+        helper.value = `解析时发送错误:\n${error.stack}`
       })
   }
 };
