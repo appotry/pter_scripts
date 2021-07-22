@@ -9,3 +9,7 @@
 一键上传影视资源
 * PTer_internal_uploady.user.js
 官组信息辅助填写
+* pter_helper_helper.user.js
+prehelper辅助工具
+* pter_movie_uploady.user.js
+一键解析生成mediainfo
