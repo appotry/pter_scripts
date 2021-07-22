@@ -39,7 +39,7 @@ const onChangeFile = (mediainfo) => {
     mediainfo
       .analyzeData(getSize, readChunk)
       .then((result) => {
-        output.value = result
+        output.value = output.value + "[hide=mediainfo]" + result + "[/hide]\n"
       })
       .catch((error) => {
         output.value = `解析时发送错误:\n${error.stack}`
