@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PTer mediainfo thingy
 // @namespace    https://pterclub.com/
-// @version      1.1
+// @version      1.2
 // @description  Drag & drop files to generate mediainfo
 // @author       scatking
 // @Credits      Eva
@@ -24,7 +24,6 @@ const onChangeFile = (mediainfo) => {
     helper.innerText = '正在解析…';
 
     const getSize = () => file.size;
-
     const readChunk = (chunkSize, offset) =>
       new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -41,7 +40,7 @@ const onChangeFile = (mediainfo) => {
       .analyzeData(getSize, readChunk)
       .then((result) => {
         helper.innerText = '解析成功';
-        output.value = output.value + "\n[hide=mediainfo]" + result + "[/hide]\n"
+        output.value = output.value + "\n[hide=mediainfo]" + result.replace(/^Format\s{7}(\s*)/m, 'Complete name$1: ' + file.name + '\nFormat       $1') + "[/hide]\n"
       })
       .catch((error) => {
         helper.innerText = `解析时发送错误:\n${error.stack}`
