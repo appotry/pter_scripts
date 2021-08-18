@@ -95,6 +95,7 @@ function steam_form(response) {
     var about = gameInfo.about_the_game;
     var date = gameInfo.release_date.date.split(", ").pop();
     var year = date.split("年").shift().trim();
+    console.log(year)
     var store = 'https://store.steampowered.com/app/' + steamid;
     var genres = [];
     gameInfo.genres.forEach(function (genre) {
