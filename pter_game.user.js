@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.6
+// @version      1.1.7
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -94,7 +94,7 @@ function steam_form(response) {
     var gameInfo = response.response[steamid].data;
     var about = gameInfo.about_the_game;
     var date = gameInfo.release_date.date.split(", ").pop();
-    var year = date.split("年").shift();
+    var year = date.split("年").shift().trim();
     var store = 'https://store.steampowered.com/app/' + steamid;
     var genres = [];
     gameInfo.genres.forEach(function (genre) {
@@ -182,7 +182,7 @@ function epic_form(response) {
     }
     var about = gameInfo.data.about.description;
     var date = gameInfo.data.meta['releaseDate'];
-    var year = date.split("-").shift();
+    var year = date.split("-").shift().trim();
     if (about === "") {about = gameInfo.data.about.shortDescription; }
     about = "[center][b][u]关于游戏[/u][/b][/center]\n" + `[b]发行日期[/b]：${date}\n\n[b]商店链接[/b]：${$("#gameid").val()}\n\n` + markdown2bb(about).trim();
     var screens = '';
@@ -248,7 +248,7 @@ function indienova_form(response) {
     var gameInfo = response.response;
     $("input[name ='name']").val(gameInfo.english_title);
     $("input[name ='small_descr']").val(gameInfo.chinese_title);
-    $("input[name ='year']").val(gameInfo.release_date.split("-").shift());
+    $("input[name ='year']").val(gameInfo.release_date.split("-").shift().trim());
     //更改居中显示文字
     var descr = gameInfo.format.replace('【基本信息】', '[center][b][u]基本信息[/u][/b][/center]').replace('【游戏简介】', '[center][b][u]关于游戏[/u][/b][/center]').replace('【游戏截图】', '[center][b][u]游戏截图[/u][/b][/center]').replace('【游戏评级】', '[center][b][u]游戏评级[/u][/b][/center]');
     //更改居中显示图片
