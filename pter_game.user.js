@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.7
+// @version      1.1.8
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -145,6 +145,14 @@ function steam_form(response) {
             recfield = gameInfo.mac_requirements;
             break;
     }
+    if (typeof(recfield.recommended) !== "undefined"){
+        recfield.recommended = '无推荐配置要求';
+    }
+    if (typeof(recfield.minimum) !== "undefined"){
+        recfield.minimum = '无配置要求';
+        recfield.recommended = '';
+    }
+
     var sr = "\n\n[center][b][u]配置要求[/u][/b][/center]\n\n" +
              pretty_sr(html2bb("[quote]\n" + recfield.minimum + "\n" + recfield.recommended + "[/quote]\n"));
     var cover = "[center][img]" + gameInfo.header_image.split("?")[0] + "[/img][/center]";       //Get the image URL
