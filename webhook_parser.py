@@ -1,16 +1,18 @@
 import re
 import json
+import time
+
 with open('epic.log', 'r') as log:
     log = log.readlines()
 # print(log)
 hook_content = []
-colors = {'WARN': 14177041, 'INFO': 1127128}
+emoji = {'WARN': ':warning: ', 'INFO': ':information_source: '}
 for i in log[3:]:
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     result = ansi_escape.sub('', i).strip().split('|')
     result = [i.strip() for i in result]
     try:
-        result = {'title': result[2], 'description': result[3], 'color': colors[result[2]]}
+        result = {'name': emoji[result[2]] + result[2], 'value': result[3]}
     except IndexError:
         continue
     # print(result)
@@ -28,13 +30,13 @@ discord_hook = {
                 "icon_url": "https://i.imgur.com/R66g1Pe.jpg"
             },
             "title": "Claim Log",
-            "url": "https://google.com/",
-            "description": "Here is your free game log",
+            "url": "https://github.com/scatking/epicgames-freebies-claimer",
+            "description": "Here is your free game log at" + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
             "color": 15258703
-        }
+        },
     ]
 }
-discord_hook['embeds'] += hook_content
+discord_hook['embeds'][0]['fields'] = hook_content
 # print(discord_hook)
 with open('webhook.json','w') as webhook:
     json.dump(discord_hook,webhook)
