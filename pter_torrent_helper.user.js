@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter torrent Helper
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      0.4.6
+// @version      0.4.7
 // @description  torrent description helper for Pterclub
 // @author       scatking
 // @match        https://pterclub.com/uploadgame.php*
@@ -66,19 +66,28 @@ async function fill_nfo(response_data) {
 function fill_install(type) {
     'use strict';
     const descr =$('#descr');
+    const title = $('input[name="torrentname"]')
     let ins_descr = '';
+    let mod_title = ''
     switch (type) {
         case 'iso':
             ins_descr = descr.val() + "[center][b][u]安装方法[/u][/b][/center]\n[*]解压缩\n[*]挂载镜像\n[*]安装游戏\n[*]复制破解补丁至游戏安装目录\n[*]游玩\n\n";
+            mod_title = title.val();
             break;
         case 'fit':
             ins_descr = descr.val() +"[center][b][u]安装方法[/u][/b][/center]\n[*]运行 \"Verify BIN files before installation.bat\" 进行MD5验证（可选）\n[*]运行 \"setup.exe\"安装游戏\n[*]开始游玩\n[*]游戏经过高压，需要一定时间才能解压完毕，请耐心等待。\n\n";
+            mod_title = title.val();
             break;
         case '3dm':
             ins_descr = descr.val() +"[center][b][u]安装方法[/u][/b][/center]\n[*]解压缩\n[*]运行游戏\n[*]破解补丁已经预先封装进游戏\n\n";
+            mod_title = title.val();
             break;
+        case 'bundle':
+            ins_descr = '[quote=可替代]本种由于以下原因可被替代:\n[color=#ff0000][*]本体升级包捆绑包[/color][/quote]' + descr.val();
+            mod_title = title.val() + ' Trumpable';
     }
     descr.val(ins_descr)
+    title.val(mod_title)
 }
 
 function release_name(title,name) {
@@ -117,11 +126,12 @@ function release_name(title,name) {
         }
     });
     $("#rlsid").after(
-        '<a href="javascript:;" id="get_nfo" style="color:green">NFO</a> <a href="javascript:;" id="fill_iso" style="color:blue">ISO</a> <a href="javascript:;" id="fill_fit" style="color:orange">Fitgirl</a> <a href="javascript:;" id="fill_3dm" style="color:red">3DM</a>');
+        '<a href="javascript:;" id="get_nfo" style="color:green">NFO</a> <a href="javascript:;" id="fill_iso" style="color:blue">ISO</a> <a href="javascript:;" id="fill_fit" style="color:orange">Fitgirl</a> <a href="javascript:;" id="fill_3dm" style="color:red">3DM</a> <a href="javascript:;" id="bundle_trump" style="color:black">Bundle</a>');
     $("#name").after('<a href="javascript:;" id="get_rls" style="color:red">Title</a>');
     $('#get_rls').click(function () { release_name(rlsname,game_name)})
     $('#get_nfo').click(function () { find_rls($("#rlsid").val());});
     $('#fill_iso').click(function () { fill_install('iso');});
     $('#fill_fit').click(function () { fill_install('fit');});
     $('#fill_3dm').click(function () { fill_install('3dm');});
+    $('#bundle_trump').click(function () { fill_install('bundle');});
 })();
