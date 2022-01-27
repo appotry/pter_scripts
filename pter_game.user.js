@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Pter game Uploady
 // @namespace    https://pterclub.com/forums.php?action=viewtopic&topicid=3391
-// @version      1.1.9
+// @version      1.1.10
 // @description  Game Uploady for Pterclub
 // @author       NeutronNoir, ZeDoCaixao, scatking
 // @match        https://pterclub.com/uploadgameinfo.php*
@@ -110,7 +110,7 @@ function steam_form(response) {
     });
     var sc = "[center][b][u]游戏截图[/u][/b][/center]\n" + "[center]" + screens + "[/center]";
     try {
-        var trailer = gameInfo.movies[0].webm.max.split("?")[0];
+        var trailer = gameInfo.movies[0].webm.max.split("?")[0].replace("http","https");
         var tr = "\n\n[center][b][u]预告欣赏[/u][/b][/center]\n" + `[center][video]${trailer}[/video][/center]`;
     }catch (e) {
         tr = ''
